@@ -1,17 +1,9 @@
 # harmonyhub
 
-This application is for all things Harmony ONE news, tweets, videos etc
+HarmonyHUB is your ONE source for information related to the Harmony Protocol.  We wrap up the relevant content from Twitter, Medium, and YouTube into a single, easy to use app.  This helps you use your time more effectively.  No more searching for content, have it delivered!
 
-## Getting Started
+The app will be a simple to use portal to get in on the Governance discussions, once you’re done educating yourself about the latest information from the Social Media feeds.  We want your opinion!
 
-This project is a starting point for a Flutter application.
+Don’t just buy some cryptocurrency, become part of the community!
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # harmony-hub-app
