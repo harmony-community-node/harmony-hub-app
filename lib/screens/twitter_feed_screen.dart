@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_api/twitter_api.dart';
 
@@ -31,10 +33,32 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
   @override
   void initState() {
     super.initState();
-    getTweets();
+    getTwitterHandles();
+  }
+
+  Future<void> getTwitterHandles() async {
+    setState(() {
+      dataLoading = true;
+    });
+    Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
+      Global.allTwitterHandles.clear();
+      value.documents.forEach((element) {
+        Global.allTwitterHandles.add(element["handle"]);
+      });
+      getTweets();
+    });
   }
 
   Future<void> getTweets() async {
+    String query = "";
+    for (int i = 0; i < Global.allTwitterHandles.length; i++) {
+      String handle = Global.allTwitterHandles[i];
+      query = "$query from:@$handle";
+      if ((i + 1) < Global.allTwitterHandles.length) {
+        query = "$query OR ";
+      }
+    }
+    debugPrint("Twitter handles " + query);
     Future twitterRequest = _twitterOauth.getTwitterRequest(
       // Http Method
       "GET",
@@ -42,7 +66,7 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
       "search/tweets.json",
       // The options for the request
       options: {
-        "q": "from:@harmonyprotocol OR from:@nickwh8te OR from:@GIZEMCAKIL",
+        "q": query,
         "count": "100",
         "result_type": "recent",
       },
@@ -52,10 +76,10 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     var res = await twitterRequest;
 
 // Print off the response
-    print(res.statusCode);
+    debugPrint(res.statusCode);
     if (res.statusCode == 200) {
       var tweets = json.decode(res.body);
-      print(tweets["statuses"].length);
+      debugPrint(tweets["statuses"].length);
       for (int i = 0; i < tweets["statuses"].length; i++) {
         var status = tweets["statuses"][i];
         TwitterFeed feed = new TwitterFeed(
@@ -109,6 +133,7 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     }
     setState(() {
       twitterItems = tweets;
+      dataLoading = false;
     });
   }
 
@@ -122,23 +147,28 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
           color: Colors.white, //change your color here
         ),
       ),
-      body: Container(
-        child: RefreshIndicator(
-          onRefresh: getTweets,
-          child: ListView(
-            padding: const EdgeInsets.all(5),
-            children: <Widget>[
-              ReusableCard(
-                cardChild: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: twitterItems,
+      body: dataLoading
+          ? SpinKitDoubleBounce(
+              color: Colors.grey,
+              size: 50.0,
+            )
+          : Container(
+              child: RefreshIndicator(
+                onRefresh: getTwitterHandles,
+                child: ListView(
+                  padding: const EdgeInsets.all(5),
+                  children: <Widget>[
+                    ReusableCard(
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: twitterItems,
+                      ),
+                      colour: kHmyMainColor.withAlpha(20),
+                    ),
+                  ],
                 ),
-                colour: kHmyMainColor.withAlpha(20),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

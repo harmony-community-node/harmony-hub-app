@@ -22,7 +22,6 @@ class Global {
   static String ogreAbroadMediumLink = "https://medium.com/@ogreabroad";
   static String twitterAccountsFilter = "from:@harmonyprotocol OR from:@nickwh8te OR from:@GIZEMCAKIL OR from:@prarysoft OR from:@ogreAbroad";
   static String harmonyYoutubeChannelId = "UCDfuhS7xu69IhK5AJSyiF0g";
-
   static String oneValAddressKey = 'MYONEVALADDRESS';
   static String oneDelAddressKey = 'MYONEVALADDRESS';
   static String favoriteValListKey = 'FAVORITEVALIDATORLIST';
@@ -32,6 +31,8 @@ class Global {
   static String myDelONEAddress = '';
 
   static bool isDarkModeEnabled = false;
+
+  static List<String> allTwitterHandles = new List<String>();
 
   static Future<String> getMyValONEAddress() async {
     if (Global.myValONEAddress == '') {
@@ -86,6 +87,15 @@ class Global {
       if (doc['twitter_account_filters'] != "") {
         twitterAccountsFilter = doc['twitter_account_filters'];
       }
+    });
+  }
+
+  static Future<void> getTwitterAccounts() async {
+    Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
+      allTwitterHandles.clear();
+      value.documents.forEach((element) {
+        allTwitterHandles.add(element["handle"]);
+      });
     });
   }
 

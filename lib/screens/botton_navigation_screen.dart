@@ -6,7 +6,6 @@ import '../utilities/constants.dart';
 import '../utilities/globals.dart';
 import 'info_screen.dart';
 import 'medium_feed_screen.dart';
-import 'social_feed_screen.dart';
 import 'twitter_feed_screen.dart';
 import 'videos_feed_screen.dart';
 
@@ -16,55 +15,37 @@ class BottomNavigationScreen extends StatefulWidget {
 }
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
-  int _selectedIndex = 0;
-  Widget bodyWidget = InformationScreen(
-    url: Global.forumUrl,
-    title: 'Discuss',
-  );
-  final List<Widget> _children = [
-    InformationScreen(
-      url: Global.forumUrl,
-      title: 'Discuss',
-    ),
-    SocialFeedScreen(),
-    MediumFeedScreen(),
-    VideosFeedScreen()
-  ];
+  PageController _c;
+  int _page = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      bodyWidget = null;
-      switch (_selectedIndex) {
-        case 0:
-          bodyWidget = InformationScreen(
-            url: Global.forumUrl,
-            title: 'Discuss',
-          );
-          break;
-        case 1:
-          bodyWidget = TwitterFeedScreen();
-          break;
-        case 2:
-          bodyWidget = MediumFeedScreen();
-          break;
-        case 3:
-          bodyWidget = VideosFeedScreen();
-          break;
-        default:
-          bodyWidget = InformationScreen(
-            url: Global.forumUrl,
-            title: 'Discuss',
-          );
-          break;
-      }
-    });
+  @override
+  void initState() {
+    super.initState();
+    _c = new PageController(
+      initialPage: _page,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: bodyWidget,
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage) {
+          setState(() {
+            this._page = newPage;
+          });
+        },
+        children: <Widget>[
+          new InformationScreen(
+            url: Global.forumUrl,
+            title: 'Discuss',
+          ),
+          new TwitterFeedScreen(),
+          new MediumFeedScreen(),
+          new VideosFeedScreen(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -84,7 +65,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             title: Text('Youtube'),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _page,
+        onTap: (index) {
+          this._c.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+        },
         selectedItemColor: kHmyMainColor,
         unselectedItemColor: kHmyGreyCardColor,
         backgroundColor: kHmyGreyCardColor,
@@ -96,7 +80,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           fontStyle: FontStyle.normal,
           color: kHmyNormalTextColor,
         ),
-        onTap: _onItemTapped,
       ),
     );
   }
