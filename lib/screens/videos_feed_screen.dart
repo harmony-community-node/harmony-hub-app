@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youtube_api/youtube_api.dart';
@@ -22,7 +24,6 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
 
   Future<void> callYoutubeAPI() async {
     videoFeed = await ytApi.channel(Global.harmonyYoutubeChannelId);
-    print(videoFeed);
     refreshData();
   }
 
@@ -30,12 +31,14 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
     List<Widget> videos = new List<Widget>();
     for (int i = 0; i < videoFeed.length; i++) {
       YT_API feed = videoFeed[i];
+      String title = utf8.decode(utf8.encode(feed.title));
+      String description = utf8.decode(utf8.encode(feed.description));
       //print(feed.url);
       //print(feed.thumbnail);
       ListViewItem item = ListViewItem(
         height: 125,
-        title: feed.title,
-        text: feed.description,
+        title: title,
+        text: description,
         leading: feed.thumbnail["default"]["url"] == null
             ? Icon(
                 FontAwesomeIcons.youtube,

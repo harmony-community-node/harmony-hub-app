@@ -21,10 +21,10 @@ class TwitterFeedScreen extends StatefulWidget {
 
 class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
   final _twitterOauth = new twitterApi(
-    consumerKey: Secretes.consumerApiKey,
-    consumerSecret: Secretes.consumerApiSecret,
-    token: Secretes.accessToken,
-    tokenSecret: Secretes.accessTokenSecret,
+    consumerKey: Secretes.twitterConsumerApiKey,
+    consumerSecret: Secretes.twitterConsumerApiSecret,
+    token: Secretes.twitterAccessToken,
+    tokenSecret: Secretes.twitterAccessTokenSecret,
   );
 
   bool dataLoading = false;
@@ -76,10 +76,8 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     var res = await twitterRequest;
 
 // Print off the response
-    debugPrint(res.statusCode);
     if (res.statusCode == 200) {
       var tweets = json.decode(res.body);
-      debugPrint(tweets["statuses"].length);
       for (int i = 0; i < tweets["statuses"].length; i++) {
         var status = tweets["statuses"][i];
         TwitterFeed feed = new TwitterFeed(

@@ -1,3 +1,5 @@
+import 'package:HarmonyHub/models/article.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,19 +21,36 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
   @override
   void initState() {
     super.initState();
-
-    refreshData();
+    getArticles();
   }
 
-  Future<void> refreshData() async {
-    List<Widget> articles = new List<Widget>();
-    for (int i = 0; i < 1; i++) {
+  Future<void> getArticles() async {
+    Firestore.instance.collection('medium_articles').getDocuments().then((value) {
+      List<Article> articles = new List<Article>();
+      value.documents.forEach((element) {
+        Article article = new Article(
+          order: element["order"],
+          title: element["title"],
+          description: element["description"],
+          imageUrl: element["image_url"],
+          articleUrl: element["url"],
+        );
+        articles.add(article);
+      });
+      refreshData(articles);
+    });
+  }
+
+  Future<void> refreshData(List<Article> articles) async {
+    List<Widget> articleWidgets = new List<Widget>();
+    for (int i = 0; i < articles.length; i++) {
+      Article art = articles[i];
       ListViewItem item = ListViewItem(
-        height: 120,
-        title: "Harmonious News Release",
-        text: "Not a week into its second year of life, and already, Harmony is turning heads. At the end of the article",
+        height: 160,
+        title: art.title,
+        text: art.description,
         leading: Image.network(
-          'https://miro.medium.com/max/700/1*W2zRxvJNRBZy-iQYjWW48w.jpeg',
+          art.imageUrl,
         ),
         moreDetails: true,
         openMoreDetails: () {
@@ -39,19 +58,19 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => InformationScreen(
-                title: "Harmonious News Release",
-                url: "https://medium.com/harmonyweeklynews/harmonious-news-release-5b3f6f940eed",
+                title: art.title,
+                url: art.articleUrl,
               ),
             ),
           );
         },
       );
-      articles.add(item);
+      articleWidgets.add(item);
       SizedBox sb = SizedBox(height: 1);
-      articles.add(sb);
+      articleWidgets.add(sb);
     }
     setState(() {
-      articleItems = articles;
+      articleItems = articleWidgets;
     });
   }
 
@@ -67,7 +86,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
       ),
       body: Container(
         child: RefreshIndicator(
-          onRefresh: refreshData,
+          onRefresh: getArticles,
           child: ListView(
             padding: const EdgeInsets.all(5),
             children: <Widget>[
