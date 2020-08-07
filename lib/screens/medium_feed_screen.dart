@@ -51,6 +51,8 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
         text: art.description,
         leading: Image.network(
           art.imageUrl,
+          height: 70.0,
+          width: 50.0,
         ),
         moreDetails: true,
         openMoreDetails: () {

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:HarmonyHub/screens/info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 import '../components/list_view_item.dart';
 import '../components/resuable_card.dart';
-import '../screens/youtube_player_screen.dart';
 import '../utilities/constants.dart';
 import '../utilities/globals.dart';
 import '../utilities/secretes.dart';
@@ -49,12 +49,22 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
               ),
         moreDetails: true,
         openMoreDetails: () {
-          Navigator.push(
+          /*Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => YoutubePlayerScreen(
                 title: feed.title,
                 videoId: feed.id,
+              ),
+            ),
+          );*/
+          print(feed.url);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InformationScreen(
+                title: feed.title,
+                url: "https://www.youtube.com/watch?v=${feed.id}",
               ),
             ),
           );

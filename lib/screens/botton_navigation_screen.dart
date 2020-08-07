@@ -39,7 +39,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         children: <Widget>[
           new InformationScreen(
             url: Global.forumUrl,
-            title: 'Discuss',
+            title: 'Forum',
           ),
           new TwitterFeedScreen(),
           new MediumFeedScreen(),
