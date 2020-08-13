@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:HarmonyHub/components/video_list_item.dart';
 import 'package:HarmonyHub/screens/info_screen.dart';
+import 'package:HarmonyHub/youtube_api/youtube_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:youtube_api/youtube_api.dart';
 
-import '../components/list_view_item.dart';
 import '../components/resuable_card.dart';
 import '../utilities/constants.dart';
 import '../utilities/globals.dart';
@@ -35,8 +35,8 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
       String description = utf8.decode(utf8.encode(feed.description));
       //print(feed.url);
       //print(feed.thumbnail);
-      ListViewItem item = ListViewItem(
-        height: 125,
+      VideoListViewItem item = VideoListViewItem(
+        height: description.length < 75 ? 80 : 135,
         title: title,
         text: description,
         leading: feed.thumbnail["default"]["url"] == null

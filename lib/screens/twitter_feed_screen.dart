@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:HarmonyHub/screens/twitter_filter_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -40,13 +41,20 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     setState(() {
       dataLoading = true;
     });
-    Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
-      Global.allTwitterHandles.clear();
-      value.documents.forEach((element) {
-        Global.allTwitterHandles.add(element["handle"]);
+    List<String> twitterHandles = await Global.getUserFavList(Global.favoriteTwitterHandlesKey);
+    print(twitterHandles);
+    if (twitterHandles == null || twitterHandles.length == 0) {
+      Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
+        Global.allTwitterHandles.clear();
+        value.documents.forEach((element) {
+          Global.allTwitterHandles.add(element["handle"]);
+        });
+        getTweets();
       });
+    } else {
+      Global.allTwitterHandles = twitterHandles;
       getTweets();
-    });
+    }
   }
 
   Future<void> getTweets() async {
@@ -77,6 +85,7 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
 
 // Print off the response
     if (res.statusCode == 200) {
+      tweetFeed.clear();
       var tweets = json.decode(res.body);
       for (int i = 0; i < tweets["statuses"].length; i++) {
         var status = tweets["statuses"][i];
@@ -141,6 +150,21 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tweets'),
+        actions: [
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.filter),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TwitterFilterScreen(
+                    refreshTweets: getTwitterHandles,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),

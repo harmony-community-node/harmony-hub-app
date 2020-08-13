@@ -26,6 +26,7 @@ class Global {
   static String oneDelAddressKey = 'MYONEVALADDRESS';
   static String favoriteValListKey = 'FAVORITEVALIDATORLIST';
   static String favoriteDelListKey = 'FAVORITEDELEGATORLIST';
+  static String favoriteTwitterHandlesKey = 'TWITTER_HANDLES_KEY';
 
   static String myValONEAddress = '';
   static String myDelONEAddress = '';

@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utilities/constants.dart';
 import '../utilities/globals.dart';
 
-class ListViewItem extends StatelessWidget {
-  ListViewItem({@required this.title, @required this.text, this.moreDetails, this.openMoreDetails, this.selectable, this.height, this.leading});
+class VideoListViewItem extends StatelessWidget {
+  VideoListViewItem({@required this.title, @required this.text, this.moreDetails, this.openMoreDetails, this.selectable, this.height, this.leading});
   final String title;
   final String text;
   final bool moreDetails;
@@ -26,7 +26,7 @@ class ListViewItem extends StatelessWidget {
       height: height != null ? height : 80.0,
       child: ListTile(
         leading: leading,
-        title: SelectableText(
+        title: Text(
           '$title',
           style: GoogleFonts.nunito(
             fontStyle: FontStyle.normal,
@@ -35,30 +35,20 @@ class ListViewItem extends StatelessWidget {
           ),
           textAlign: TextAlign.left,
           maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
-        subtitle: selectable == true
-            ? SelectableText(
-                text,
-                style: GoogleFonts.nunito(
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: kHmyNormalTextColor,
-                ),
-                textAlign: TextAlign.left,
-              )
-            : Text(
-                text,
-                style: GoogleFonts.nunito(
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: kHmyNormalTextColor,
-                ),
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 6,
-              ),
+        subtitle: Text(
+          text,
+          style: GoogleFonts.nunito(
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+            color: kHmyNormalTextColor,
+          ),
+          textAlign: TextAlign.left,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 6,
+        ),
         trailing: showArrow ? Icon(FontAwesomeIcons.chevronRight) : null,
         enabled: true,
         onTap: openMoreDetails,

@@ -17,6 +17,10 @@ class BottomNavigationScreen extends StatefulWidget {
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   PageController _c;
   int _page = 0;
+  InformationScreen forumScreen = new InformationScreen(
+    url: Global.forumUrl,
+    title: 'Forum',
+  );
 
   @override
   void initState() {
@@ -37,10 +41,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           });
         },
         children: <Widget>[
-          new InformationScreen(
-            url: Global.forumUrl,
-            title: 'Forum',
-          ),
+          forumScreen,
           new TwitterFeedScreen(),
           new MediumFeedScreen(),
           new VideosFeedScreen(),
