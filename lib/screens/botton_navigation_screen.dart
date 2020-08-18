@@ -41,18 +41,14 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           });
         },
         children: <Widget>[
-          forumScreen,
           new TwitterFeedScreen(),
           new MediumFeedScreen(),
           new VideosFeedScreen(),
+          forumScreen,
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.commentDots),
-            title: Text('Forum'),
-          ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.hashtag),
             title: Text('Social'),
@@ -64,6 +60,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.youtube),
             title: Text('Youtube'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.commentDots),
+            title: Text('Forum'),
           ),
         ],
         currentIndex: _page,
