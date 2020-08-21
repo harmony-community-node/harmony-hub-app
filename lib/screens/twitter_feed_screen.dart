@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:HarmonyHub/screens/twitter_filter_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -45,13 +44,13 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
     List<String> twitterHandles = await Global.getUserFavList(Global.favoriteTwitterHandlesKey);
     print(twitterHandles);
     if (twitterHandles == null || twitterHandles.length == 0) {
-      Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
-        Global.allTwitterHandles.clear();
-        value.documents.forEach((element) {
-          Global.allTwitterHandles.add(element["handle"]);
-        });
-        getTweets();
-      });
+      Global.allTwitterHandles.add("stse");
+      Global.allTwitterHandles.add("nickwh8te");
+      Global.allTwitterHandles.add("SahilDewan");
+      Global.allTwitterHandles.add("GIZEMCAKIL");
+      Global.allTwitterHandles.add("harmonyprotocol");
+      Global.setUserFavList(Global.favoriteTwitterHandlesKey, Global.allTwitterHandles);
+      getTweets();
     } else {
       Global.allTwitterHandles = twitterHandles;
       getTweets();
@@ -67,7 +66,6 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
         query = "$query OR ";
       }
     }
-    debugPrint("Twitter handles " + query);
     Future twitterRequest = _twitterOauth.getTwitterRequest(
       // Http Method
       "GET",

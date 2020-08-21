@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:xml2json/xml2json.dart';
 import 'package:xml_parser/xml_parser.dart';
 
@@ -31,6 +32,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
   }
 
   Future<void> getAccounts() async {
+    accounts.clear();
     Firestore.instance.collection('medium_accounts').getDocuments().then((value) {
       value.documents.forEach((element) {
         accounts.add(element['handle']);
@@ -68,7 +70,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
                   if (content.contains("harmony") || content.contains("harmony one") || content.contains("ONE")) {
                     String articleURL = item['link']["\$"];
                     String updatedDate = item['atom:updated']["\$"];
-
+                    var pubDate;
                     String imgUrl = "";
                     try {
                       final startIndex = content.indexOf("<figure>");
@@ -77,14 +79,19 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
                       final srcStartIndex = imgTag.indexOf("src=\"");
                       final srcEndIndex = imgTag.indexOf("\"", srcStartIndex + "src=\"".length);
                       imgUrl = imgTag.substring(srcStartIndex + "src=\"".length, srcEndIndex);
-                    } catch (e) {}
+                      DateFormat dateFormat = new DateFormat("E, d MMM y H:m:s");
+                      pubDate = dateFormat.parse(item['pubDate']["\$"]);
+                    } catch (e) {
+                      print(e);
+                    }
                     Article article = new Article(
                         order: 1,
                         title: itemTitle,
-                        description: "\nPublished By : $account \n\nPublish On : ${item['pubDate']["\$"]}",
+                        description: "\nPublished By : $account \n\nPublish On : ${new DateFormat.yMMMd().format(pubDate)}",
                         imageUrl: imgUrl,
                         articleUrl: articleURL,
-                        articleDate: DateTime.parse(updatedDate));
+                        publishedDate: pubDate != null ? pubDate : DateTime.parse(updatedDate),
+                        updatedDate: DateTime.parse(updatedDate));
 
                     i++;
                     articles.add(article);
@@ -97,7 +104,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
         }
       } catch (e) {}
     }
-    articles.sort((a, b) => b.articleDate.compareTo(a.articleDate));
+    articles.sort((a, b) => b.publishedDate.compareTo(a.publishedDate));
     refreshData(articles);
   }
 
@@ -139,6 +146,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
       articleWidgets.add(sb);
     }
     setState(() {
+      articleItems.clear();
       articleItems = articleWidgets;
       dataLoading = false;
     });
