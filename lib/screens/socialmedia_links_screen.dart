@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:HarmonyHub/screens/info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,30 +63,6 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     );
   }
 
-  void gotoDiscussionScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InformationScreen(
-          url: Global.forumUrl,
-          title: 'Discuss',
-        ),
-      ),
-    );
-  }
-
-  void gotoHarmonyScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InformationScreen(
-          url: Global.harmonyOneUrl,
-          title: 'Harmony.one',
-        ),
-      ),
-    );
-  }
-
   void openYoutube() async {
     if (Platform.isIOS) {
       if (await canLaunch(Global.harmonyYoutubeAppLink)) {
@@ -107,6 +84,30 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     }
   }
 
+  void gotoHarmonyScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InformationScreen(
+          url: Global.harmonyOneUrl,
+          title: 'Harmony.one',
+        ),
+      ),
+    );
+  }
+
+  void gotoHarmonyDocumentation() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InformationScreen(
+          url: Global.docsUrl,
+          title: 'Documentation',
+        ),
+      ),
+    );
+  }
+
   void openTelegram() async {
     if (await canLaunch(Global.harmonyTelegramLink)) {
       launch(Global.harmonyTelegramLink);
@@ -123,9 +124,33 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     }
   }
 
-  void openMediumBlog() async {
-    if (await canLaunch(Global.ogreAbroadMediumLink)) {
-      await launch(Global.ogreAbroadMediumLink);
+  void openDiscord() async {
+    if (await canLaunch(Global.harmonyDiscordLink)) {
+      await launch(Global.harmonyDiscordLink);
+    } else {
+      _showMyDialog('Something went wrong, please try again later.');
+    }
+  }
+
+  void openReddit() async {
+    if (await canLaunch(Global.harmonyRedditLink)) {
+      await launch(Global.harmonyRedditLink);
+    } else {
+      _showMyDialog('Something went wrong, please try again later.');
+    }
+  }
+
+  void openGithub() async {
+    if (await canLaunch(Global.harmonyGithubLink)) {
+      await launch(Global.harmonyGithubLink);
+    } else {
+      _showMyDialog('Something went wrong, please try again later.');
+    }
+  }
+
+  void openHCNTelegram() async {
+    if (await canLaunch(Global.hcnTelegramLink)) {
+      await launch(Global.hcnTelegramLink);
     } else {
       _showMyDialog('Something went wrong, please try again later.');
     }
@@ -135,16 +160,16 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     List<dynamic> setItems = new List<dynamic>();
     setItems.add(
       {
-        'title': 'Discuss',
-        'icon': FontAwesomeIcons.comment,
-        'event': gotoDiscussionScreen,
+        'title': 'Harmony.one',
+        'icon': FontAwesomeIcons.firefoxBrowser,
+        'event': gotoHarmonyScreen,
       },
     );
     setItems.add(
       {
-        'title': 'Harmony.one',
-        'icon': FontAwesomeIcons.info,
-        'event': gotoHarmonyScreen,
+        'title': 'Documention',
+        'icon': FontAwesomeIcons.bookReader,
+        'event': gotoHarmonyDocumentation,
       },
     );
     setItems.add(
@@ -156,23 +181,37 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     );
     setItems.add(
       {
-        'title': 'Harmony Telegram',
+        'title': 'Discord',
+        'icon': FontAwesomeIcons.discord,
+        'event': openDiscord,
+      },
+    );
+    setItems.add(
+      {
+        'title': 'Reddit',
+        'icon': FontAwesomeIcons.reddit,
+        'event': openReddit,
+      },
+    );
+    setItems.add(
+      {
+        'title': 'Github',
+        'icon': FontAwesomeIcons.github,
+        'event': openGithub,
+      },
+    );
+    setItems.add(
+      {
+        'title': 'Telegram',
         'icon': FontAwesomeIcons.telegram,
         'event': openTelegram,
       },
     );
     setItems.add(
       {
-        'title': 'OgreAbroad\'s Blog',
-        'icon': FontAwesomeIcons.blog,
-        'event': openMediumBlog,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'PrArySoft.com',
-        'icon': FontAwesomeIcons.windowRestore,
-        'event': openPrarySoft,
+        'title': 'Harmony Community Node',
+        'icon': FontAwesomeIcons.telegram,
+        'event': openHCNTelegram,
       },
     );
 
@@ -193,7 +232,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     Global.checkIfDarkModeEnabled(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Social'),
+        title: Text('Information'),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(30.0),
           child: Image.asset(

@@ -13,14 +13,19 @@ class Global {
   static String selectedNetworkUrl = "https://api.s0.t.hmny.io/";
   static String analyticsDataUrl = "https://staking-explorer2-268108.appspot.com/networks/harmony/staking_network_info";
   static String forumUrl = "https://talk.harmony.one";
-  static String docsUrl = "https://docs.harmony.one/home/validators";
+  static String docsUrl = "https://docs.harmony.one/";
   static String harmonyOneUrl = "https://harmony.one";
   static String harmonyYoutubeAppLink = "youtube://www.youtube.com/channel/UCDfuhS7xu69IhK5AJSyiF0g";
   static String harmonyYoutubeWebLink = "https://www.youtube.com/channel/UCDfuhS7xu69IhK5AJSyiF0g";
   static String harmonyTelegramLink = "https://t.me/harmony_one";
+  static String harmonyDiscordLink = "https://harmony.one/discord";
+  static String harmonyRedditLink = "https://harmony.one/reddit";
+  static String harmonyGithubLink = "https://harmony.one/github";
+  static String hcnTelegramLink = "https://t.me/HarmonyCommunityNode";
   static String prarySoftLink = "https://prarysoft.com/index.html";
   static String ogreAbroadMediumLink = "https://medium.com/@ogreabroad";
   static String twitterAccountsFilter = "from:@harmonyprotocol OR from:@nickwh8te OR from:@GIZEMCAKIL OR from:@prarysoft OR from:@ogreAbroad";
+  static String twitterTweetQuery = "harmonyprotocol \$ONE OR #ONE";
   static String harmonyYoutubeChannelId = "UCDfuhS7xu69IhK5AJSyiF0g";
   static String oneValAddressKey = 'MYONEVALADDRESS';
   static String oneDelAddressKey = 'MYONEVALADDRESS';
@@ -75,18 +80,10 @@ class Global {
 
   static Future<void> getInitializer() async {
     Firestore.instance.document('initializers/IFmVhDydREL0IjMUnUMa').get().then((doc) {
-      numberToDivide = doc['num_to_divide'];
-      numberOfSecondsForEpoch = doc['num_seconds_in_epoch'];
-      dataRefreshInSeconds = doc['data_refresh_in_secs'];
       forumUrl = doc['forum_url'];
       docsUrl = doc['docs_url'];
-      if (doc['harmony_youtube_weblink'] != null) {
-        if (doc['harmony_youtube_weblink'] != '') {
-          harmonyYoutubeWebLink = doc['harmony_youtube_weblink'];
-        }
-      }
-      if (doc['twitter_account_filters'] != "") {
-        twitterAccountsFilter = doc['twitter_account_filters'];
+      if (doc['twitter_tweet_query'] != "") {
+        twitterTweetQuery = doc['twitter_tweet_query'];
       }
     });
   }

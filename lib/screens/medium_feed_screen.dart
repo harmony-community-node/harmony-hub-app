@@ -158,6 +158,12 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Articles'),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: Image.asset(
+            'assets/app_icon.png',
+          ),
+        ),
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
