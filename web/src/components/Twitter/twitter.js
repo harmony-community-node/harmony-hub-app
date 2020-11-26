@@ -15,7 +15,7 @@ export default function MediaCard({ tweets }) {
             <blockquote
               className="twitter-tweet"
               data-conversation="none"
-              data-width="300"
+              data-theme="dark"
             >
               <p lang="und" dir="ltr">
                 <a href={`${value.url}?ref_src=twsrc%5Etfw`}>
