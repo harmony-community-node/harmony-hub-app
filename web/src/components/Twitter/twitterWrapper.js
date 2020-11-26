@@ -28,7 +28,7 @@ export default function TwitterWrapper() {
         let data = await axios({
           url:
             proxyurl +
-            `https://api.twitter.com/1.1/search/tweets.json?${query}&count=10&result_type=recent`,
+            `https://api.twitter.com/1.1/search/tweets.json?${query}&count=50&result_type=recent`,
           headers: {
             Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
           },

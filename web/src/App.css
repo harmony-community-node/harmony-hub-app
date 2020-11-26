@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.grid {
+  display: grid;
+
+  /* define the number of grid columns */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
