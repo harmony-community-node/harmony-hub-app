@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Twitter from './Twitter/twitter';
+import Twitter from './Twitter/twitterWrapper';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,7 +59,12 @@ export default function SimpleTabs() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" variant="fullWidth">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+          variant="fullWidth"
+        >
           <Tab label="Tweets" {...a11yProps(0)} />
           <Tab label="Articles" {...a11yProps(1)} />
           <Tab label="Forum" {...a11yProps(2)} />
@@ -67,7 +72,7 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Twitter/>
+        <Twitter />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Articles
