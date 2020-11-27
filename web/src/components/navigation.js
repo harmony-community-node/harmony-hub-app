@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,7 +7,11 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Twitter from './Twitter/twitterWrapper';
-import Medium from './medium/wrapper';
+import ReactDOMServer from 'react-dom/server';
+import Loader from './loader';
+const Medium = lazy(() => import('./medium/wrapper'));
+const Calender = lazy(() => import('./Calender'));
+const Forum = lazy(() => import('./form.js'));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,7 +49,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#fff',
   },
 }));
 
@@ -56,7 +60,10 @@ export default function SimpleTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const now = new Date();
+  const loader = ReactDOMServer.renderToStaticMarkup(<Loader />);
 
+  console.log(loader);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -68,21 +75,34 @@ export default function SimpleTabs() {
         >
           <Tab label="Tweets" {...a11yProps(0)} />
           <Tab label="Articles" {...a11yProps(1)} />
-          <Tab label="Forum" {...a11yProps(2)} />
-          <Tab label="Information" {...a11yProps(3)} />
+          <Tab label="Calender" {...a11yProps(2)} />
+          <Tab label="Forum" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <Twitter />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Medium />
+        <Suspense
+          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
+        >
+          <Medium />
+        </Suspense>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Forum
+        <Suspense
+          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
+        >
+          <Calender />
+        </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        Information
+      <TabPanel value={value} index={3}>
+        <Suspense
+          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
+        >
+          {' '}
+          <Forum />
+        </Suspense>
       </TabPanel>
     </div>
   );

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
 }
 
 code {
@@ -13,10 +14,41 @@ code {
 }
 
 .cardHolder {
-  width: 25%;
 }
 
 .mediumWrap {
+  /* display: grid; */
+  grid-auto-flow: dense;
+}
+
+.flexTweet {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.MuiPaper-root {
+  margin: 0 20px 25px 0px;
+}
+
+.makeStyles-root-1 {
+  background-color: black;
+}
+
+.MuiGrid-item {
+  height: fit-content;
+}
+
+.mediumWrap {
+  column-gap: 0;
+}
+
+.MuiAppBar-colorPrimary {
+  background-color: black !important;
+}
+
+.loaderHar {
+  position: relative;
+  align-items: center;
+  text-align: center;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Twitter from './twitter';
+import Card from './card';
 import firebase from '../../firebase';
 import axios from 'axios';
 
@@ -40,7 +40,11 @@ export default function TwitterWrapper() {
             tweetText: value['text'],
             tweetId: value['id_str'],
             userId: value['user']['screen_name'],
-            url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}?ref_src=twsrc%5Etfw`,
+            url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
+            profilePicUrl: value['user']['profile_image_url_https'].replace(
+              /_normal\./,
+              '.'
+            ),
           };
           return entry;
         });
@@ -52,9 +56,13 @@ export default function TwitterWrapper() {
     TwitterIds();
   }, []);
 
+  console.log(Tweets);
   return (
-    <div>
-      <Twitter tweets={Tweets} />
+    <div className="flexTweet">
+      {Tweets.length > 0 &&
+        Tweets.map((value, index) => {
+          return <Card state={value} />;
+        })}
     </div>
   );
 }
