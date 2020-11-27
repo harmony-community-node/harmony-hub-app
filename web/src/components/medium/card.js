@@ -1,53 +1,39 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
-export default function OutlinedCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
+const tagToText = (node) => {
+  let tag = document.createElement('div');
+  tag.innerHTML = node;
+  node = tag.innerText;
+  return node;
+};
+const shortenText = (text, startingPoint, maxLength) => {
+  return text.length > maxLength ? text.slice(startingPoint, maxLength) : text;
+};
+function Card(props) {
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <div className="cardHolder">
+      <div className="card">
+        <img
+          src={props.post.thumbnail}
+          className="card-img-top post-thumbnail"
+          onError={(e) =>
+            (e.target.src =
+              'https://cdn-images-1.medium.com/max/483/1*hazuDJPEx9w1g7olSrbt8g@2x.png')
+          }
+          alt={props.post.title}
+        ></img>
+        <div className="card-body">
+          <h5 className="card-title post-title">{props.post.title}</h5>
+          <p className="card-text post-preview">
+            {'...' +
+              shortenText(tagToText(props.post.content), 60, 200) +
+              '...'}
+          </p>
+          <a href={props.post.link} className="btn btn-link-grey">
+            Read this article on Medium.com
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
+export default Card;

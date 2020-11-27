@@ -4,12 +4,12 @@ export default function MediaCard({ tweets }) {
   console.log(tweets);
 
   useEffect(() => {
-    window.twttr.widgets.load();
+    if (window.twttr) window.twttr.widgets.load();
   });
   return (
     <>
       <div className="grid">
-        {tweets.map((value, index) => {
+        {/* {tweets.map((value, index) => {
           console.log(value.url);
           return (
             <blockquote
@@ -25,7 +25,7 @@ export default function MediaCard({ tweets }) {
               &mdash;
             </blockquote>
           );
-        })}
+        })} */}
       </div>
     </>
   );
