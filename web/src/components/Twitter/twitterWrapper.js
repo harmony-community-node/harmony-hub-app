@@ -11,7 +11,6 @@ export default function TwitterWrapper() {
       .firestore()
       .collection('twitter_accounts')
       .onSnapshot(async (snapshot) => {
-        console.log(snapshot);
         let query = 'q=';
         snapshot.docs.forEach(async (doc, idx, array) => {
           let items = doc.data();
@@ -33,13 +32,14 @@ export default function TwitterWrapper() {
             Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
           },
         });
-        console.log(data);
         data = data.data.statuses.map((value) => {
+          console.log(value);
           const entry = {
             userName: value['user']['name'],
             tweetText: value['text'],
             tweetId: value['id_str'],
             userId: value['user']['screen_name'],
+            created_at: value['created_at'],
             url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
             profilePicUrl: value['user']['profile_image_url_https'].replace(
               /_normal\./,

@@ -27,10 +27,34 @@ class Calender extends React.Component {
         color: val.color,
         start: val.start_date.toDate(),
         title: val.title,
+        recurrence_type: val.recurrence_type,
+        recurrence_rule: val.recurrence_rule,
       };
       return obj;
     });
-    this.setState({ events: finalList });
+
+    console.log(finalList);
+    const newlist = [...finalList];
+
+    finalList.reduce((accumulator = [], current, index, array) => {
+      if (current.recurrence_type === 'Weekly') {
+        console.log(current);
+        const position = current.recurrence_rule.indexOf('COUNT');
+        const count = current.recurrence_rule[position + 6];
+        let arr = [];
+        const date = current.start;
+        for (let i = 1; i < count; i++) {
+          const newdate = new Date(date.setDate(date.getDate() + 7));
+          console.log(newdate);
+          arr.push({ ...current, start: newdate });
+        }
+        console.log(arr);
+        newlist.push(...arr);
+      }
+    });
+    let newSet = new Set(newlist);
+    console.log();
+    this.setState({ events: Array.from(newSet) });
   }
 
   render() {

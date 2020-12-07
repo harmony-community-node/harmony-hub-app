@@ -32,7 +32,6 @@ export default function CardWrapper() {
         .get();
       const final = list.docs.map(async (value) => {
         const memory = value.data();
-        console.log(memory);
         return new Promise((resolve, reject) => {
           const data = axios({
             url: 'https://api.rss2json.com/v1/api.json',
@@ -48,7 +47,6 @@ export default function CardWrapper() {
         });
       });
       const finall = await Promise.all(final);
-      console.log(finall);
       updatePosts(finall);
     };
     fetch();

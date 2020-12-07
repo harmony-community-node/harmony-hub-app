@@ -39,6 +39,9 @@ export default function MediaCard({ state }) {
           <Typography gutterBottom variant="body1" component="h2">
             @{state.userId}
           </Typography>
+          <Typography gutterBottom variant="body1" component="h5">
+            {state.created_at}
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {state.tweetText}
           </Typography>
