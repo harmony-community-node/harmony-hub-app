@@ -3,6 +3,7 @@ import React from 'react';
 import Firebase from '../firebase';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import FullCalendar from 'fullcalendar-reactwrapper';
+import Modal from './modal';
 
 class Calender extends React.Component {
   constructor(props) {
@@ -14,6 +15,8 @@ class Calender extends React.Component {
           start: '2017-05-01',
         },
       ],
+      open: false,
+      modelInfo: {},
     };
   }
 
@@ -33,22 +36,18 @@ class Calender extends React.Component {
       return obj;
     });
 
-    console.log(finalList);
     const newlist = [...finalList];
 
     finalList.reduce((accumulator = [], current, index, array) => {
       if (current.recurrence_type === 'Weekly') {
-        console.log(current);
         const position = current.recurrence_rule.indexOf('COUNT');
         const count = current.recurrence_rule[position + 6];
         let arr = [];
         const date = current.start;
         for (let i = 1; i < count; i++) {
           const newdate = new Date(date.setDate(date.getDate() + 7));
-          console.log(newdate);
           arr.push({ ...current, start: newdate });
         }
-        console.log(arr);
         newlist.push(...arr);
       }
     });
@@ -58,6 +57,11 @@ class Calender extends React.Component {
   }
 
   render() {
+    console.log(this.state.modelInfo);
+    const eventClick = (info) => {
+      console.log(info);
+      this.setState({ open: !this.state.open, modelInfo: info });
+    };
     return (
       <div id="example-component">
         <FullCalendar
@@ -72,6 +76,12 @@ class Calender extends React.Component {
           editable={true}
           eventLimit={true} // allow "more" link when too many events
           events={this.state.events}
+          eventClick={eventClick}
+        />
+        <Modal
+          open={this.state.open}
+          setOpen={(state) => this.setState({ open: state })}
+          modalInfo={this.state.modelInfo}
         />
       </div>
     );

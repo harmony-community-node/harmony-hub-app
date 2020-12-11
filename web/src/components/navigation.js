@@ -75,7 +75,7 @@ export default function SimpleTabs() {
         >
           <Tab label="Tweets" {...a11yProps(0)} />
           <Tab label="Articles" {...a11yProps(1)} />
-          <Tab label="Calender" {...a11yProps(2)} />
+          <Tab label="Calendar" {...a11yProps(2)} />
           <Tab label="Forum" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
