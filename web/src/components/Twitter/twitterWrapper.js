@@ -14,7 +14,10 @@ export default function TwitterWrapper() {
         let query = 'q=';
         snapshot.docs.forEach(async (doc, idx, array) => {
           let items = doc.data();
-          if (items.name == '$ONE') {
+          if (items.name === '$ONE') {
+            console.log('fdasjknaskd');
+            query += `from:ONE`;
+            console.log(query);
           } else {
             if (idx === array.length - 1) {
               query += `from:${items.handle}`;
@@ -33,7 +36,6 @@ export default function TwitterWrapper() {
           },
         });
         data = data.data.statuses.map((value) => {
-          console.log(value);
           const entry = {
             userName: value['user']['name'],
             tweetText: value['text'],

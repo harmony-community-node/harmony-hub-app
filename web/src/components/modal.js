@@ -58,9 +58,15 @@ export default function TransitionsModal({ open, setOpen, modalInfo }) {
               <br />
               Description: {modalInfo.title}
               <br />
-              Type: {modalInfo.recurrence_type}
-              <br />
               Notes: {modalInfo.notes || <span>No Notes regarding this</span>}
+              <br />
+              StartTime:{' '}
+              {modalInfo.start ? modalInfo.start.toDate().toString() : <></>}
+              <br />
+              EndTime:{' '}
+              {modalInfo.end ? modalInfo.end.toDate().toString() : <></>}
+              <br />
+              Type: {modalInfo.recurrence_type}
             </p>
           </div>
         </Fade>
