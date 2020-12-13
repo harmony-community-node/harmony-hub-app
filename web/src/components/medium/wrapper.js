@@ -5,7 +5,7 @@ import firebase from '../../firebase';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-
+import Box from '@material-ui/core/Box';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,21 +54,13 @@ export default function CardWrapper() {
 
   return (
     <div className="mediumWrap">
-      <Grid container spacing={3}>
-        {posts.length > 0 &&
-          posts.map((value, index) => {
-            const individual = value.data.items;
-            return individual.map((value, index) => {
-              return (
-                <Grid item xs={3}>
-                  <Paper className={classes.paper}>
-                    <Card key={index} post={value} />{' '}
-                  </Paper>
-                </Grid>
-              );
-            });
-          })}
-      </Grid>
+      {posts.length > 0 &&
+        posts.map((value, index) => {
+          const individual = value.data.items;
+          return individual.map((value, index) => {
+            return <Card width={200} key={index} post={value} />;
+          });
+        })}
     </div>
   );
 }

@@ -27,6 +27,7 @@ class Calender extends React.Component {
     const finalList = eventList.docs.map((value) => {
       const val = value.data();
       const obj = {
+        textColor: 'white',
         color: val.color,
         start: val.start_date.toDate(),
         title: val.title,

@@ -19,6 +19,11 @@ code {
 .mediumWrap {
   /* display: grid; */
   grid-auto-flow: dense;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  flex-direction: row;
 }
 
 .flexTweet {
@@ -51,4 +56,8 @@ code {
   position: relative;
   align-items: center;
   text-align: center;
+}
+
+.cardHolder {
+  max-width: 400px;
 }
