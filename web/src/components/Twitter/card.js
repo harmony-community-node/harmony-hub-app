@@ -13,7 +13,8 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 140,
+    height: 100,
+    width: 101,
   },
 });
 
@@ -24,24 +25,28 @@ export default function MediaCard({ state }) {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          data-sizes="auto"
-          data-src={state.profilePicUrl}
-          className={classes.media}
-          image={state.profilePicUrl}
-          title="Contemplative Reptile"
-          component="img"
-        />
+        <div style={{ display: 'flex' }}>
+          <CardMedia
+            data-sizes="auto"
+            data-src={state.profilePicUrl}
+            className={classes.media}
+            image={state.profilePicUrl}
+            title="Contemplative Reptile"
+            component="img"
+          />
+          <div>
+            <Typography gutterBottom variant="h5" component="h2">
+              {state.userName}
+            </Typography>
+            <Typography gutterBottom variant="body1" component="h2">
+              @{state.userId}
+            </Typography>
+            <Typography gutterBottom variant="body1" component="h5">
+              {state.created_at}
+            </Typography>
+          </div>
+        </div>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {state.userName}
-          </Typography>
-          <Typography gutterBottom variant="body1" component="h2">
-            @{state.userId}
-          </Typography>
-          <Typography gutterBottom variant="body1" component="h5">
-            {state.created_at}
-          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {state.tweetText}
           </Typography>

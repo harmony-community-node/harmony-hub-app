@@ -61,7 +61,11 @@ export default function TransitionsModal({ open, setOpen, modalInfo }) {
               {modalInfo.start ? modalInfo.start.toDate().toString() : <></>}
               <br />
               EndTime:{' '}
-              {modalInfo.end ? modalInfo.end.toDate().toString() : <></>}
+              {modalInfo.end ? (
+                modalInfo.end.toDate().toString()
+              ) : (
+                <span>No End Date Availaible</span>
+              )}
               <br />
               Type: {modalInfo.recurrence_type}
             </p>

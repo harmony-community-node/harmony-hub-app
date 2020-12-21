@@ -50,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
+    width: '100px',
+    overflow: 'scroll',
   },
 }));
 
@@ -73,37 +75,26 @@ export default function SimpleTabs() {
           aria-label="simple tabs example"
           variant="fullWidth"
         >
-          <Tab label="Tweets" {...a11yProps(0)} />
-          <Tab label="Articles" {...a11yProps(1)} />
-          <Tab label="Calendar" {...a11yProps(2)} />
-          <Tab label="Forum" {...a11yProps(3)} />
+          <Tab label="Articles" {...a11yProps(0)} />
+          <Tab label="Calendar" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+
       <TabPanel value={value} index={0}>
-        <Twitter />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
         <Suspense
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
           <Medium />
         </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={1}>
         <Suspense
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
           <Calender />
         </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Suspense
-          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
-        >
-          {' '}
-          <Forum />
-        </Suspense>
-      </TabPanel>
+      <TabPanel value={value} index={2}></TabPanel>
     </div>
   );
 }
