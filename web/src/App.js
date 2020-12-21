@@ -2,6 +2,7 @@ import './App.css';
 import Navigation from './components/navigation';
 import Twitter from './components/Twitter/twitterWrapper';
 import firebase from './firebase';
+import Divider from '@material-ui/core/Divider';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             height="100%"
           />
         </div>
+        <Divider orientation="vertical" />
         <div>
           <img
             src="1200px-Download_on_the_App_Store_Badge.svg.png"
@@ -23,8 +25,11 @@ function App() {
           <img src="en_badge_web_generic.png" width="20%" height="100%" />
         </div>
       </div>
+      <Divider />
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ width: '20%', overflow: 'scroll' }}>
+          <br />
+          <br />
           <Twitter />
         </div>
         <Navigation />

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Card from './card';
 import firebase from '../../firebase';
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function TwitterWrapper() {
   const [Tweets, updateTweets] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   const TwitterIds = () => {
+    setLoader(true);
     firebase
       .firestore()
       .collection('twitter_accounts')
@@ -51,6 +54,7 @@ export default function TwitterWrapper() {
           return entry;
         });
         updateTweets(data);
+        setLoader(false);
       });
   };
 
@@ -61,7 +65,9 @@ export default function TwitterWrapper() {
   console.log(Tweets);
   return (
     <div className="flexTweet">
-      {Tweets.length > 0 &&
+      {loader && <CircularProgress />}
+      {!loader &&
+        Tweets.length > 0 &&
         Tweets.map((value, index) => {
           return <Card state={value} />;
         })}
