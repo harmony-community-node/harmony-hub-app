@@ -10,11 +10,11 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 370,
   },
   media: {
-    height: 100,
-    width: 101,
+    height: 60,
+    width: 60,
   },
 });
 
@@ -24,41 +24,36 @@ export default function MediaCard({ state }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <div style={{ display: 'flex' }}>
-          <CardMedia
-            data-sizes="auto"
-            data-src={state.profilePicUrl}
-            className={classes.media}
-            image={state.profilePicUrl}
-            title="Contemplative Reptile"
-            component="img"
-          />
-          <div>
-            <Typography gutterBottom variant="h5" component="h2">
-              {state.userName}
-            </Typography>
-            <Typography gutterBottom variant="body1" component="h2">
-              @{state.userId}
-            </Typography>
-            <Typography gutterBottom variant="body1" component="h5">
-              {state.created_at}
-            </Typography>
+      <a href={state.url} className="anchor" target="_blank">
+        <CardActionArea>
+          <div style={{ display: 'flex' }}>
+            <CardMedia
+              data-sizes="auto"
+              data-src={state.profilePicUrl}
+              className={classes.media}
+              image={state.profilePicUrl}
+              title="Contemplative Reptile"
+              component="img"
+            />
+            <div>
+              <Typography gutterBottom variant="h6" component="h3">
+                {state.userName}
+              </Typography>
+              <Typography gutterBottom variant="body2" component="h4">
+                @{state.userId}
+              </Typography>
+              <Typography gutterBottom variant="body2" component="h6">
+                {state.created_at}
+              </Typography>
+            </div>
           </div>
-        </div>
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {state.tweetText}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          <a href={state.url} target="_blank">
-            See More
-          </a>
-        </Button>
-      </CardActions>
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {state.tweetText}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </a>
     </Card>
   );
 }

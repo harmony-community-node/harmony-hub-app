@@ -7,10 +7,11 @@ import Divider from '@material-ui/core/Divider';
 function App() {
   return (
     <div className="App" style={{ height: '100vh', overflow: 'scroll' }}>
+      {/* <iframe src="http://www.youtube.com/embed/videoseries?list=USERID" /> */}
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
           <img
-            src="harmony-logo-horizontal-full-color.svg"
+            src="harmony-logo-horizontal-ful-color.svg"
             width="50%"
             height="100%"
           />

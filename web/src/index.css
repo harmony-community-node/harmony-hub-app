@@ -61,3 +61,8 @@ code {
 .cardHolder {
   max-width: 300px;
 }
+
+.anchor {
+  color: black !important;
+  text-decoration: none;
+}

@@ -12,6 +12,7 @@ import Loader from './loader';
 const Medium = lazy(() => import('./medium/wrapper'));
 const Calender = lazy(() => import('./Calender'));
 const Forum = lazy(() => import('./form.js'));
+const List = lazy(() => import('./list/list'));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -77,6 +78,7 @@ export default function SimpleTabs() {
         >
           <Tab label="Articles" {...a11yProps(0)} />
           <Tab label="Calendar" {...a11yProps(1)} />
+          <Tab label="List" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
@@ -92,6 +94,13 @@ export default function SimpleTabs() {
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
           <Calender />
+        </Suspense>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Suspense
+          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
+        >
+          <List />
         </Suspense>
       </TabPanel>
       <TabPanel value={value} index={2}></TabPanel>
