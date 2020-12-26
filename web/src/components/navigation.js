@@ -6,12 +6,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Twitter from './Twitter/twitterWrapper';
 import ReactDOMServer from 'react-dom/server';
 import Loader from './loader';
 const Medium = lazy(() => import('./medium/wrapper'));
 const Calender = lazy(() => import('./Calender'));
-const Forum = lazy(() => import('./form.js'));
 const List = lazy(() => import('./list/list'));
 
 function TabPanel(props) {
@@ -78,7 +76,7 @@ export default function SimpleTabs() {
         >
           <Tab label="Articles" {...a11yProps(0)} />
           <Tab label="Calendar" {...a11yProps(1)} />
-          <Tab label="List" {...a11yProps(2)} />
+          <Tab label="Harmony Links" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 

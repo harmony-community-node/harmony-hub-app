@@ -26,7 +26,7 @@ export default function MediaCard({ state }) {
     <Card className={classes.root}>
       <a href={state.url} className="anchor" target="_blank">
         <CardActionArea>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <CardMedia
               data-sizes="auto"
               data-src={state.profilePicUrl}
@@ -39,11 +39,9 @@ export default function MediaCard({ state }) {
               <Typography gutterBottom variant="h6" component="h3">
                 {state.userName}
               </Typography>
-              <Typography gutterBottom variant="body2" component="h4">
-                @{state.userId}
-              </Typography>
+
               <Typography gutterBottom variant="body2" component="h6">
-                {state.created_at}
+                @{state.userId} {state.created_at}
               </Typography>
             </div>
           </div>

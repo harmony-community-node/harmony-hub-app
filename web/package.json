@@ -16,6 +16,7 @@
     "globalize": "^1.6.0",
     "husky": "^4.3.0",
     "moment": "^2.29.1",
+    "moment-js": "^1.1.15",
     "prettier": "^2.2.0",
     "pretty-quick": "^3.1.0",
     "react": "^17.0.1",
