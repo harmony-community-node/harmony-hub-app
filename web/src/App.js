@@ -23,12 +23,23 @@ function App() {
             </div>
             <Divider orientation="vertical" />
             <div>
-              <img
-                src="1200px-Download_on_the_App_Store_Badge.svg.png"
-                width="20%"
-                height="70%"
-              />
-              <img src="en_badge_web_generic.png" width="20%" height="100%" />
+              {' '}
+              <a
+                href="https://apps.apple.com/us/app/harmony-hub-app/id1526055095"
+                target="_blank"
+              >
+                <img
+                  src="1200px-Download_on_the_App_Store_Badge.svg.png"
+                  width="20%"
+                  height="70%"
+                />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.one.harmonyhub"
+                target="_blank"
+              >
+                <img src="en_badge_web_generic.png" width="20%" height="100%" />
+              </a>
             </div>
           </div>
           <Divider />
@@ -68,14 +79,24 @@ function App() {
             <br />
             <br />
             <div>
-              <img
-                src="1200px-Download_on_the_App_Store_Badge.svg.png"
-                width="70%"
-                height="70%"
-              />
+              <a
+                href="https://apps.apple.com/us/app/harmony-hub-app/id1526055095"
+                target="_blank"
+              >
+                <img
+                  src="1200px-Download_on_the_App_Store_Badge.svg.png"
+                  width="70%"
+                  height="70%"
+                />
+              </a>
             </div>
             <div>
-              <img src="en_badge_web_generic.png" width="80%" height="100%" />
+              <a
+                href="https://play.google.com/store/apps/details?id=com.one.harmonyhub"
+                target="_blank"
+              >
+                <img src="en_badge_web_generic.png" width="80%" height="100%" />
+              </a>
             </div>
           </div>
         </>
