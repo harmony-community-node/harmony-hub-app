@@ -11,6 +11,7 @@ import Loader from './loader';
 const Medium = lazy(() => import('./medium/wrapper'));
 const Calender = lazy(() => import('./Calender'));
 const List = lazy(() => import('./list/list'));
+const YouTube = lazy(() => import('./youtube/youtubeWrapper'));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,7 +77,8 @@ export default function SimpleTabs() {
         >
           <Tab label="Articles" {...a11yProps(0)} />
           <Tab label="Calendar" {...a11yProps(1)} />
-          <Tab label="Harmony Links" {...a11yProps(2)} />
+          <Tab label="Youtube" {...a11yProps(2)} />
+          <Tab label="Harmony Links" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
 
@@ -98,10 +100,16 @@ export default function SimpleTabs() {
         <Suspense
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
+          <YouTube />
+        </Suspense>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Suspense
+          fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
+        >
           <List />
         </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={2}></TabPanel>
     </div>
   );
 }
