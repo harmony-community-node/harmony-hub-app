@@ -39,7 +39,7 @@ export default function MediaCard({ state }) {
               <Typography gutterBottom variant="h6" component="h3">
                 {state.userName}
               </Typography>
-
+              <br />
               <Typography gutterBottom variant="body2" component="h6">
                 @{state.userId} {state.created_at}
               </Typography>
