@@ -22,7 +22,7 @@ export default function TwitterWrapper() {
   }, []);
 
   return (
-    <div className="flexTweet">
+    <div className="mediumWrap">
       {loader && <CircularProgress />}
       {!loader &&
         Youtube.length > 0 &&

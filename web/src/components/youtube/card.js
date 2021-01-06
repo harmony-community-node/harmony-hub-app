@@ -22,7 +22,7 @@ export default function ImgMediaCard({ state }) {
   console.log(title, description, media, url);
 
   return (
-    <Card className={classes.root}>
+    <Card className="cardHolder">
       {' '}
       <a href={url} target="_blank" className="anchor">
         <CardActionArea>
