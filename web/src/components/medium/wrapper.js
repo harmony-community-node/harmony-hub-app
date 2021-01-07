@@ -47,7 +47,16 @@ export default function CardWrapper() {
         });
       });
       const finall = await Promise.all(final);
-      updatePosts(finall);
+      const newList = finall.map((value) => {
+        const individual = value.data.items;
+        return individual;
+      });
+      const merged = [].concat.apply([], newList);
+      console.log(merged);
+      merged.sort((a, b) => {
+        return new Date(b.pubDate) - new Date(a.pubDate);
+      });
+      updatePosts(merged);
     };
     fetch();
   }, []);
@@ -56,10 +65,7 @@ export default function CardWrapper() {
     <div className="mediumWrap">
       {posts.length > 0 &&
         posts.map((value, index) => {
-          const individual = value.data.items;
-          return individual.map((value, index) => {
-            return <Card width={200} key={index} post={value} />;
-          });
+          return <Card width={200} key={index} post={value} />;
         })}
     </div>
   );
