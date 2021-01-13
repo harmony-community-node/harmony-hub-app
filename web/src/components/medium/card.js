@@ -22,7 +22,9 @@ function Card(props) {
           alt={props.post.title}
         ></img>
         <div className="card-body">
-          <h5 className="card-title post-title">{props.post.title}</h5>
+          <h5 className="card-title post-title">
+            {props.post.title.replace('&amp;', '&')}
+          </h5>
           <p className="card-text post-preview">
             {'...' +
               shortenText(tagToText(props.post.content), 60, 200) +

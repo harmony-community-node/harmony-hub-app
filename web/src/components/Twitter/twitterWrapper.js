@@ -19,8 +19,7 @@ export default function TwitterWrapper() {
         snapshot.docs.forEach(async (doc, idx, array) => {
           let items = doc.data();
           if (items.name === '$ONE') {
-            console.log('fdasjknaskd');
-            query += `from:ONE`;
+            query += `from:harmony ONE OR ONE`;
             console.log(query);
           } else {
             if (idx === array.length - 1) {
