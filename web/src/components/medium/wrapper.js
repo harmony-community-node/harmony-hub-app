@@ -40,7 +40,7 @@ export default function CardWrapper() {
             params: {
               rss_url: `https://medium.com/feed/@${memory.handle}`,
               api_key: 'y4dwd67lyurloc6qcmhyeagshi6xqpk9uveembgu',
-              count: 2,
+              count: 4,
             },
           });
           resolve(data);

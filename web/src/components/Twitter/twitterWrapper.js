@@ -34,37 +34,47 @@ export default function TwitterWrapper() {
         let data = await axios({
           url:
             proxyurl +
-            `https://api.twitter.com/1.1/search/tweets.json?${query}&count=50&result_type=recent`,
+            `https://api.twitter.com/1.1/search/tweets.json?${query}&count=200&result_type=recent`,
           headers: {
             Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
           },
         });
-        data = data.data.statuses.map((value) => {
-          const split = value['created_at'].split(' ');
-          const date =
-            split[1] +
-            ' ' +
-            split[2] +
-            ' ' +
-            split[3].substring(0, 5) +
-            ' ' +
-            split[5];
-          console.log(date);
 
-          const entry = {
-            userName: value['user']['name'],
-            tweetText: value['text'],
-            tweetId: value['id_str'],
-            userId: value['user']['screen_name'],
-            created_at: date,
-            url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
-            profilePicUrl: value['user']['profile_image_url_https'].replace(
-              /_normal\./,
-              '.'
-            ),
-          };
-          return entry;
-        });
+        console.log('looks at this', data.data.statuses);
+        data = data.data.statuses
+          .filter((value) => {
+            if (value.in_reply_to_status_id === null) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+          .map((value) => {
+            const split = value['created_at'].split(' ');
+            const date =
+              split[1] +
+              ' ' +
+              split[2] +
+              ' ' +
+              split[3].substring(0, 5) +
+              ' ' +
+              split[5];
+            console.log(date);
+
+            const entry = {
+              userName: value['user']['name'],
+              tweetText: value['text'],
+              tweetId: value['id_str'],
+              userId: value['user']['screen_name'],
+              created_at: date,
+              url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
+              profilePicUrl: value['user']['profile_image_url_https'].replace(
+                /_normal\./,
+                '.'
+              ),
+            };
+            return entry;
+          });
         updateTweets(data);
         setLoader(false);
       });

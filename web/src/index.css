@@ -66,3 +66,7 @@ code {
   color: black !important;
   text-decoration: none;
 }
+
+.flexTweet > .MuiPaper-root {
+  width: 100% !important;
+}

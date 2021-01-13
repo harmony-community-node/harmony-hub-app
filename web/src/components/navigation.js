@@ -75,8 +75,8 @@ export default function SimpleTabs() {
           aria-label="simple tabs example"
           variant="fullWidth"
         >
-          <Tab label="Articles" {...a11yProps(0)} />
-          <Tab label="Calendar" {...a11yProps(1)} />
+          <Tab label="Calendar" {...a11yProps(0)} />
+          <Tab label="Articles" {...a11yProps(1)} />
           <Tab label="Youtube" {...a11yProps(2)} />
           <Tab label="Harmony Links" {...a11yProps(3)} />
         </Tabs>
@@ -86,14 +86,14 @@ export default function SimpleTabs() {
         <Suspense
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
-          <Medium />
+          <Calender />
         </Suspense>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Suspense
           fallback={<div dangerouslySetInnerHTML={{ __html: loader }} />}
         >
-          <Calender />
+          <Medium />
         </Suspense>
       </TabPanel>
       <TabPanel value={value} index={2}>
