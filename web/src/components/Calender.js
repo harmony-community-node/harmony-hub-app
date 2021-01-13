@@ -30,9 +30,11 @@ class Calender extends React.Component {
         textColor: 'white',
         color: val.color,
         start: val.start_date.toDate(),
+        end: val.end_date.toDate(),
         title: val.title,
         recurrence_type: val.recurrence_type,
         recurrence_rule: val.recurrence_rule,
+        notes: val.notes,
       };
       return obj;
     });

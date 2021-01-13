@@ -33,6 +33,7 @@ export default function TransitionsModal({ open, setOpen, modalInfo }) {
     setOpen(false);
   };
 
+  console.log(modalInfo);
   return (
     <div>
       <Modal
