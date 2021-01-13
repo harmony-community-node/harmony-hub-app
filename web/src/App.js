@@ -50,17 +50,18 @@ function App() {
               <Twitter />
             </div>
             <Navigation />
+
             <div>
               <iframe
-                id="tgw_5fe0fbb683ba8839128b456c"
-                frameBorder="0"
+                id="tgw_5fff3a4583ba882b538b4569"
+                frameborder="0"
                 scrolling="no"
                 horizontalscrolling="no"
                 verticalscrolling="no"
-                width="120%"
+                width="100%"
                 height="100%"
                 async
-                src="https://tgwidget.com/channel/v2.0/?id=5fe0fbb683ba8839128b456c"
+                src="https://tgwidget.com/widget/?id=5fff3a4583ba882b538b4569"
               ></iframe>
             </div>
           </div>{' '}

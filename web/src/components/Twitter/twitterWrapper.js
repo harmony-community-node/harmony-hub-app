@@ -19,7 +19,7 @@ export default function TwitterWrapper() {
         snapshot.docs.forEach(async (doc, idx, array) => {
           let items = doc.data();
           if (items.name === '$ONE') {
-            query += `from:harmony ONE OR ONE`;
+            // query += `from:harmony ONE OR ONE`;
             console.log(query);
           } else {
             if (idx === array.length - 1) {
@@ -33,7 +33,7 @@ export default function TwitterWrapper() {
         let data = await axios({
           url:
             proxyurl +
-            `https://api.twitter.com/1.1/search/tweets.json?${query}&count=200&result_type=recent`,
+            `https://api.twitter.com/1.1/search/tweets.json?${query}  AND -filter:retweets AND -filter:replies&count=800&result_type=recent&exclude_replies=true`,
           headers: {
             Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
           },
@@ -41,13 +41,13 @@ export default function TwitterWrapper() {
 
         console.log('looks at this', data.data.statuses);
         data = data.data.statuses
-          .filter((value) => {
-            if (value.in_reply_to_status_id === null) {
-              return true;
-            } else {
-              return false;
-            }
-          })
+          // .filter((value) => {
+          //   if (value.in_reply_to_status_id === null) {
+          //     return true;
+          //   } else {
+          //     return false;
+          //   }
+          // })
           .map((value) => {
             const split = value['created_at'].split(' ');
             const date =
