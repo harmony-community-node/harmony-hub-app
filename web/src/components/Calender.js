@@ -24,20 +24,25 @@ class Calender extends React.Component {
     const eventList = await Firebase.firestore()
       .collection('calendar_events')
       .get();
-    const finalList = eventList.docs.map((value) => {
-      const val = value.data();
-      const obj = {
-        textColor: 'white',
-        color: val.color,
-        start: val.start_date.toDate(),
-        end: val.end_date.toDate(),
-        title: val.title,
-        recurrence_type: val.recurrence_type,
-        recurrence_rule: val.recurrence_rule,
-        notes: val.notes,
-      };
-      return obj;
-    });
+    const finalList = eventList.docs
+      .filter((value) => {
+        console.log(value.data());
+        return value.data().approved;
+      })
+      .map((value) => {
+        const val = value.data();
+        const obj = {
+          textColor: 'white',
+          color: val.color,
+          start: val.start_date.toDate(),
+          end: val.end_date.toDate(),
+          title: val.title,
+          recurrence_type: val.recurrence_type,
+          recurrence_rule: val.recurrence_rule,
+          notes: val.notes,
+        };
+        return obj;
+      });
 
     const newlist = [...finalList];
 
@@ -55,14 +60,12 @@ class Calender extends React.Component {
       }
     });
     let newSet = new Set(newlist);
-    console.log();
+    console.log(Array.from(newSet));
     this.setState({ events: Array.from(newSet) });
   }
 
   render() {
-    console.log(this.state.modelInfo);
     const eventClick = (info) => {
-      console.log(info);
       this.setState({ open: !this.state.open, modelInfo: info });
     };
     return (
