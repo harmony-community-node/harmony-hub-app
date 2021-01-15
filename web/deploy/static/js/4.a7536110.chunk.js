@@ -18,13 +18,13 @@
         j = n.n(b),
         h = n(42),
         f = (n(167), n(168)),
-        O = n.n(f),
-        m = n(143),
-        v = n(206),
+        v = n.n(f),
+        O = n(143),
+        m = n(206),
         x = n(202),
         y = n(207),
         g = n(203),
-        D = Object(m.a)(function (e) {
+        D = Object(O.a)(function (e) {
           return {
             modal: {
               display: 'flex',
@@ -51,7 +51,7 @@
         return (
           console.log(r),
           Object(u.jsx)('div', {
-            children: Object(u.jsx)(v.a, {
+            children: Object(u.jsx)(m.a, {
               'aria-labelledby': 'transition-modal-title',
               'aria-describedby': 'transition-modal-description',
               className: a.modal,
@@ -155,19 +155,25 @@
                               );
                             case 2:
                               (t = e.sent),
-                                (n = t.docs.map(function (e) {
-                                  var t = e.data();
-                                  return {
-                                    textColor: 'white',
-                                    color: t.color,
-                                    start: t.start_date.toDate(),
-                                    end: t.end_date.toDate(),
-                                    title: t.title,
-                                    recurrence_type: t.recurrence_type,
-                                    recurrence_rule: t.recurrence_rule,
-                                    notes: t.notes,
-                                  };
-                                })),
+                                (n = t.docs
+                                  .filter(function (e) {
+                                    return (
+                                      console.log(e.data()), e.data().approved
+                                    );
+                                  })
+                                  .map(function (e) {
+                                    var t = e.data();
+                                    return {
+                                      textColor: 'white',
+                                      color: t.color,
+                                      start: t.start_date.toDate(),
+                                      end: t.end_date.toDate(),
+                                      title: t.title,
+                                      recurrence_type: t.recurrence_type,
+                                      recurrence_rule: t.recurrence_rule,
+                                      notes: t.notes,
+                                    };
+                                  })),
                                 (r = Object(s.a)(n)),
                                 n.reduce(function () {
                                   var e =
@@ -201,7 +207,7 @@
                                   }
                                 }),
                                 (c = new Set(r)),
-                                console.log(),
+                                console.log(Array.from(c)),
                                 this.setState({ events: Array.from(c) });
                             case 9:
                             case 'end':
@@ -222,11 +228,10 @@
               key: 'render',
               value: function () {
                 var e = this;
-                console.log(this.state.modelInfo);
                 return Object(u.jsxs)('div', {
                   id: 'example-component',
                   children: [
-                    Object(u.jsx)(O.a, {
+                    Object(u.jsx)(v.a, {
                       id: 'your-custom-ID',
                       header: {
                         left: 'prev,next today myCustomButton',
@@ -239,8 +244,7 @@
                       eventLimit: !0,
                       events: this.state.events,
                       eventClick: function (t) {
-                        console.log(t),
-                          e.setState({ open: !e.state.open, modelInfo: t });
+                        e.setState({ open: !e.state.open, modelInfo: t });
                       },
                     }),
                     Object(u.jsx)(k, {
@@ -262,4 +266,4 @@
     },
   },
 ]);
-//# sourceMappingURL=4.04e2adcb.chunk.js.map
+//# sourceMappingURL=4.a7536110.chunk.js.map
