@@ -140,6 +140,22 @@ export default function AlignItemsList() {
           <ListItemText primary="Harmony Community Node" />
         </a>
       </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start">
+        <ListItemAvatar>
+          <Avatar
+            alt="Travis Howard"
+            src="data:image/png;base64,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"
+          />
+        </ListItemAvatar>
+        <a
+          href="https://www.harmonyvalidators.com/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <ListItemText primary="Harmony Validators" />
+        </a>
+      </ListItem>
     </List>
   );
 }
