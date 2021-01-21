@@ -39,8 +39,18 @@ export default function TwitterWrapper() {
           },
         });
 
+        let data2 = await axios({
+          url:
+            proxyurl +
+            `https://api.twitter.com/1.1/search/tweets.json?q=harmony $ONE OR #ONE&count=50&result_type=recent&exclude_replies=true`,
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
+          },
+        });
+
+        console.log(data2);
         console.log('looks at this', data.data.statuses);
-        data = data.data.statuses
+        data = [...data.data.statuses, ...data2.data.statuses]
           // .filter((value) => {
           //   if (value.in_reply_to_status_id === null) {
           //     return true;
@@ -73,6 +83,9 @@ export default function TwitterWrapper() {
               ),
             };
             return entry;
+          })
+          .sort((a, b) => {
+            return new Date(b.created_at) - new Date(a.created_at);
           });
         updateTweets(data);
         setLoader(false);
