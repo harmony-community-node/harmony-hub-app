@@ -1,5 +1,14 @@
 class Article {
-  Article({this.order, this.title, this.publishedDate, this.updatedDate, this.articleUrl, this.description, this.imageUrl});
+  Article({
+    this.order,
+    this.title,
+    this.publishedDate,
+    this.updatedDate,
+    this.articleUrl,
+    this.description,
+    this.imageUrl,
+    this.projectCode,
+  });
   final int order;
   final DateTime updatedDate;
   final DateTime publishedDate;
@@ -7,4 +16,5 @@ class Article {
   final String description;
   final String articleUrl;
   final String imageUrl;
+  final String projectCode;
 }

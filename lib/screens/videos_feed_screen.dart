@@ -91,6 +91,12 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Videos'),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: Image.asset(
+            'assets/app_icon.png',
+          ),
+        ),
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),

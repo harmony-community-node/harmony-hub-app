@@ -33,8 +33,8 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
 
   Future<void> getAccounts() async {
     accounts.clear();
-    Firestore.instance.collection('medium_accounts').getDocuments().then((value) {
-      value.documents.forEach((element) {
+    FirebaseFirestore.instance.collection('medium_accounts').get().then((value) {
+      value.docs.forEach((element) {
         accounts.add(element['handle']);
       });
       getArticles();
@@ -158,6 +158,12 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Articles'),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: Image.asset(
+            'assets/app_icon.png',
+          ),
+        ),
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),

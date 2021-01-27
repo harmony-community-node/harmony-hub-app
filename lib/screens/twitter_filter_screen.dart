@@ -1,6 +1,7 @@
 import 'package:HarmonyHub/utilities/constants.dart';
 import 'package:HarmonyHub/utilities/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,14 +23,19 @@ class _TwitterFilterScreenState extends State<TwitterFilterScreen> {
   @override
   void initState() {
     super.initState();
-    refreshTweets = widget.refreshTweets;
-    getTwitterFilters();
+    Firebase.initializeApp().whenComplete(() {
+      setState(() {});
+      refreshTweets = widget.refreshTweets;
+      getTwitterFilters();
+    });
   }
 
   Widget _buildList(BuildContext context, DocumentSnapshot document) {
     return ListTile(
       title: Text(
-        "@${document['handle']}",
+        !(document['handle'].toString().contains("\$") || document['handle'].toString().contains("#"))
+            ? "@${document['handle']}"
+            : "${document['handle']}",
         style: GoogleFonts.nunito(
           fontStyle: FontStyle.normal,
           color: kHmyMainColor,
@@ -73,7 +79,7 @@ class _TwitterFilterScreenState extends State<TwitterFilterScreen> {
           ),
         ),
         body: StreamBuilder(
-          stream: Firestore.instance.collection('twitter_accounts').snapshots(),
+          stream: FirebaseFirestore.instance.collection('twitter_accounts').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               SpinKitDoubleBounce(
@@ -83,9 +89,9 @@ class _TwitterFilterScreenState extends State<TwitterFilterScreen> {
             }
             return ListView.builder(
               itemExtent: 60.0,
-              itemCount: snapshot.data == null ? 0 : snapshot.data.documents.length,
+              itemCount: snapshot.data == null ? 0 : snapshot.data.docs.length,
               itemBuilder: (context, index) {
-                return _buildList(context, snapshot.data.documents[index]);
+                return _buildList(context, snapshot.data.docs[index]);
               },
             );
           },
