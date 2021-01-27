@@ -52,3 +52,6 @@ android/app/build.gradle
 ios/Podfile.lock
 lib/utilities/secretes.dart
 ios/Runner/GoogleService-Info.plist
+AppleCertificates/ProdAPNSCertificate.certSigningRequest
+AppleCertificates/DevAPNSCertificate.certSigningRequest
+cloud_functions/
