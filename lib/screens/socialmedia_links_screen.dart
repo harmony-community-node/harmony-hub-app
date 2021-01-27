@@ -108,6 +108,18 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     );
   }
 
+  void gotoHarmonyValidatorsWebLink() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InformationScreen(
+          url: Global.harmonyValidatorsWebLink,
+          title: 'Harmony Validators',
+        ),
+      ),
+    );
+  }
+
   void openTelegram() async {
     if (await canLaunch(Global.harmonyTelegramLink)) {
       launch(Global.harmonyTelegramLink);
@@ -167,14 +179,21 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     );
     setItems.add(
       {
-        'title': 'Documention',
+        'title': 'Documentation',
         'icon': FontAwesomeIcons.bookReader,
         'event': gotoHarmonyDocumentation,
       },
     );
     setItems.add(
       {
-        'title': 'Harmony Youtube Channel',
+        'title': 'Harmony Validators',
+        'icon': FontAwesomeIcons.building,
+        'event': gotoHarmonyValidatorsWebLink,
+      },
+    );
+    setItems.add(
+      {
+        'title': 'Youtube',
         'icon': FontAwesomeIcons.youtube,
         'event': openYoutube,
       },

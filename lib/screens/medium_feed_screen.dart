@@ -33,8 +33,8 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
 
   Future<void> getAccounts() async {
     accounts.clear();
-    Firestore.instance.collection('medium_accounts').getDocuments().then((value) {
-      value.documents.forEach((element) {
+    FirebaseFirestore.instance.collection('medium_accounts').get().then((value) {
+      value.docs.forEach((element) {
         accounts.add(element['handle']);
       });
       getArticles();
