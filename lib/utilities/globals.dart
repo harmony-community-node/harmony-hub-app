@@ -1,3 +1,4 @@
+import 'package:HarmonyHub/models/calendar_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,20 +14,28 @@ class Global {
   static String selectedNetworkUrl = "https://api.s0.t.hmny.io/";
   static String analyticsDataUrl = "https://staking-explorer2-268108.appspot.com/networks/harmony/staking_network_info";
   static String forumUrl = "https://talk.harmony.one";
-  static String docsUrl = "https://docs.harmony.one/home/validators";
+  static String docsUrl = "https://docs.harmony.one/";
   static String harmonyOneUrl = "https://harmony.one";
   static String harmonyYoutubeAppLink = "youtube://www.youtube.com/channel/UCDfuhS7xu69IhK5AJSyiF0g";
   static String harmonyYoutubeWebLink = "https://www.youtube.com/channel/UCDfuhS7xu69IhK5AJSyiF0g";
   static String harmonyTelegramLink = "https://t.me/harmony_one";
+  static String harmonyDiscordLink = "https://harmony.one/discord";
+  static String harmonyRedditLink = "https://harmony.one/reddit";
+  static String harmonyGithubLink = "https://harmony.one/github";
+  static String hcnTelegramLink =
+      "https://staking.harmony.one/validators/mainnet/one1leh5rmuclw5u68gw07d86kqxjd69zuny3h23c3"; //"https://t.me/HarmonyCommunityNode";
+  static String harmonyValidatorsWebLink = "https://www.harmonyvalidators.com";
   static String prarySoftLink = "https://prarysoft.com/index.html";
   static String ogreAbroadMediumLink = "https://medium.com/@ogreabroad";
   static String twitterAccountsFilter = "from:@harmonyprotocol OR from:@nickwh8te OR from:@GIZEMCAKIL OR from:@prarysoft OR from:@ogreAbroad";
+  static String twitterTweetQuery = "harmony \$ONE OR #ONE";
   static String harmonyYoutubeChannelId = "UCDfuhS7xu69IhK5AJSyiF0g";
   static String oneValAddressKey = 'MYONEVALADDRESS';
   static String oneDelAddressKey = 'MYONEVALADDRESS';
   static String favoriteValListKey = 'FAVORITEVALIDATORLIST';
   static String favoriteDelListKey = 'FAVORITEDELEGATORLIST';
   static String favoriteTwitterHandlesKey = 'TWITTER_HANDLES_KEY';
+  static String calenderEventPushNotifications = "calenderEventPushNotifications";
 
   static String myValONEAddress = '';
   static String myDelONEAddress = '';
@@ -34,6 +43,7 @@ class Global {
   static bool isDarkModeEnabled = false;
 
   static List<String> allTwitterHandles = new List<String>();
+  static List<CalendarEvent> events = new List<CalendarEvent>();
 
   static Future<String> getMyValONEAddress() async {
     if (Global.myValONEAddress == '') {
@@ -74,27 +84,19 @@ class Global {
   }
 
   static Future<void> getInitializer() async {
-    Firestore.instance.document('initializers/IFmVhDydREL0IjMUnUMa').get().then((doc) {
-      numberToDivide = doc['num_to_divide'];
-      numberOfSecondsForEpoch = doc['num_seconds_in_epoch'];
-      dataRefreshInSeconds = doc['data_refresh_in_secs'];
+    FirebaseFirestore.instance.doc('initializers/IFmVhDydREL0IjMUnUMa').get().then((doc) {
       forumUrl = doc['forum_url'];
       docsUrl = doc['docs_url'];
-      if (doc['harmony_youtube_weblink'] != null) {
-        if (doc['harmony_youtube_weblink'] != '') {
-          harmonyYoutubeWebLink = doc['harmony_youtube_weblink'];
-        }
-      }
-      if (doc['twitter_account_filters'] != "") {
-        twitterAccountsFilter = doc['twitter_account_filters'];
+      if (doc['twitter_tweet_query'] != "") {
+        twitterTweetQuery = doc['twitter_tweet_query'];
       }
     });
   }
 
   static Future<void> getTwitterAccounts() async {
-    Firestore.instance.collection('twitter_accounts').getDocuments().then((value) {
+    FirebaseFirestore.instance.collection('twitter_accounts').get().then((value) {
       allTwitterHandles.clear();
-      value.documents.forEach((element) {
+      value.docs.forEach((element) {
         allTwitterHandles.add(element["handle"]);
       });
     });
@@ -135,4 +137,54 @@ class Global {
   }
 
   static Future<dynamic> getMediumArticles() async {}
+
+  static DateTime getNearest15MinuteMark(DateTime moment) {
+    if (moment.minute >= 0 && moment.minute < 8) {
+      moment = moment.add(Duration(minutes: -moment.minute));
+    } else if (moment.minute >= 8 && moment.minute < 16) {
+      moment = moment.add(Duration(minutes: 15 - moment.minute));
+    } else if (moment.minute >= 16 && moment.minute < 24) {
+      moment = moment.add(Duration(minutes: -(moment.minute - 15)));
+    } else if (moment.minute >= 24 && moment.minute < 31) {
+      moment = moment.add(Duration(minutes: 30 - moment.minute));
+    } else if (moment.minute >= 31 && moment.minute < 39) {
+      moment = moment.add(Duration(minutes: -(moment.minute - 30)));
+    } else if (moment.minute >= 39 && moment.minute < 46) {
+      moment = moment.add(Duration(minutes: 45 - moment.minute));
+    } else if (moment.minute >= 46 && moment.minute < 54) {
+      moment = moment.add(Duration(minutes: -(moment.minute - 45)));
+    } else if (moment.minute >= 54 && moment.minute <= 59) {
+      moment = moment.add(Duration(minutes: 60 - moment.minute));
+    }
+    print(moment);
+
+    return moment;
+  }
+
+  static Color getColorFromString(String strColor) {
+    if (strColor == "" || strColor == null) {
+      return Colors.transparent;
+    }
+    Color c = Colors.transparent;
+    if (strColor == "blue") {
+      c = Colors.blue;
+    } else if (strColor == "green") {
+      c = Colors.green;
+    } else if (strColor == "red") {
+      c = Colors.red;
+    } else if (strColor == "yellow") {
+      c = Colors.yellow;
+    } else if (strColor == "teal") {
+      c = Colors.teal;
+    } else if (strColor == "brown") {
+      c = Colors.brown;
+    } else if (strColor == "black") {
+      c = Colors.black;
+    } else if (strColor == "orange") {
+      c = Colors.orange;
+    } else if (strColor == "purple") {
+      c = Colors.purple;
+    }
+    return c;
+  }
 }
