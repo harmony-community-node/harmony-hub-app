@@ -5,7 +5,7 @@
       'use strict';
       n.r(e),
         n.d(e, 'default', function () {
-          return f;
+          return b;
         });
       var r = n(27),
         a = n.n(r),
@@ -63,15 +63,15 @@
         p = n(47),
         d = n.n(p),
         m = n(44),
-        h = n(144),
-        b = Object(h.a)(function (t) {
+        f = n(144),
+        h = Object(f.a)(function (t) {
           return {
             root: { flexGrow: 1 },
             paper: { textAlign: 'center', color: t.palette.text.secondary },
           };
         });
-      function f() {
-        b();
+      function b() {
+        h();
         var t = Object(i.useState)([]),
           e = Object(s.a)(t, 2),
           n = e[0],
@@ -107,22 +107,26 @@
                                               t.abrupt(
                                                 'return',
                                                 new Promise(function (t, e) {
-                                                  t(
-                                                    d()({
-                                                      url:
-                                                        'https://api.rss2json.com/v1/api.json',
-                                                      method: 'GET',
-                                                      dataType: 'json',
-                                                      params: {
-                                                        rss_url: 'https://medium.com/feed/@'.concat(
-                                                          n.handle
-                                                        ),
-                                                        api_key:
-                                                          'y4dwd67lyurloc6qcmhyeagshi6xqpk9uveembgu',
-                                                        count: 4,
-                                                      },
-                                                    })
-                                                  );
+                                                  try {
+                                                    t(
+                                                      d()({
+                                                        url:
+                                                          'https://api.rss2json.com/v1/api.json',
+                                                        method: 'GET',
+                                                        dataType: 'json',
+                                                        params: {
+                                                          rss_url: 'https://medium.com/feed/@'.concat(
+                                                            n.handle
+                                                          ),
+                                                          api_key:
+                                                            'y4dwd67lyurloc6qcmhyeagshi6xqpk9uveembgu',
+                                                          count: 4,
+                                                        },
+                                                      })
+                                                    );
+                                                  } catch (r) {
+                                                    e(r);
+                                                  }
                                                 })
                                               )
                                             );
@@ -139,13 +143,17 @@
                               })()
                             )),
                             (t.next = 6),
-                            Promise.all(n)
+                            Promise.allSettled(n)
                           );
                         case 6:
                           (s = t.sent),
-                            (o = s.map(function (t) {
-                              return t.data.items;
-                            })),
+                            (o = s
+                              .filter(function (t) {
+                                return console.log(t), 'fulfilled' === t.status;
+                              })
+                              .map(function (t) {
+                                return t.value.data.items;
+                              })),
                             (i = [].concat.apply([], o)),
                             console.log(i),
                             i.sort(function (t, e) {
@@ -177,4 +185,4 @@
     },
   },
 ]);
-//# sourceMappingURL=6.8dc5c822.chunk.js.map
+//# sourceMappingURL=6.20a4450b.chunk.js.map
