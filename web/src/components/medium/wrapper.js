@@ -33,24 +33,33 @@ export default function CardWrapper() {
       const final = list.docs.map(async (value) => {
         const memory = value.data();
         return new Promise((resolve, reject) => {
-          const data = axios({
-            url: 'https://api.rss2json.com/v1/api.json',
-            method: 'GET',
-            dataType: 'json',
-            params: {
-              rss_url: `https://medium.com/feed/@${memory.handle}`,
-              api_key: 'y4dwd67lyurloc6qcmhyeagshi6xqpk9uveembgu',
-              count: 4,
-            },
-          });
-          resolve(data);
+          try {
+            const data = axios({
+              url: 'https://api.rss2json.com/v1/api.json',
+              method: 'GET',
+              dataType: 'json',
+              params: {
+                rss_url: `https://medium.com/feed/@${memory.handle}`,
+                api_key: 'y4dwd67lyurloc6qcmhyeagshi6xqpk9uveembgu',
+                count: 4,
+              },
+            });
+            resolve(data);
+          } catch (e) {
+            reject(e);
+          }
         });
       });
-      const finall = await Promise.all(final);
-      const newList = finall.map((value) => {
-        const individual = value.data.items;
-        return individual;
-      });
+      const finall = await Promise.allSettled(final);
+      const newList = finall
+        .filter((value) => {
+          console.log(value);
+          return value.status === 'fulfilled' ? true : false;
+        })
+        .map((value) => {
+          const individual = value.value.data.items;
+          return individual;
+        });
       const merged = [].concat.apply([], newList);
       console.log(merged);
       merged.sort((a, b) => {
