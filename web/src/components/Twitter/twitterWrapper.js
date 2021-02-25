@@ -9,87 +9,50 @@ export default function TwitterWrapper() {
   const [Tweets, updateTweets] = useState([]);
   const [loader, setLoader] = useState(true);
 
-  const TwitterIds = () => {
+  const TwitterIds = async () => {
     setLoader(true);
-    firebase
-      .firestore()
-      .collection('twitter_accounts')
-      .onSnapshot(async (snapshot) => {
-        let query = 'q=';
-        snapshot.docs.forEach(async (doc, idx, array) => {
-          let items = doc.data();
-          if (items.name === '$ONE') {
-            // query += `from:harmony ONE OR ONE`;
-            console.log(query);
-          } else {
-            if (idx === array.length - 1) {
-              query += `from:${items.handle}`;
-            } else {
-              query += `from:${items.handle}+OR+`;
-            }
-          }
-        });
-        const proxyurl = 'https://cors-anywhere.herokuapp.com/';
-        let data = await axios({
-          url:
-            proxyurl +
-            `https://api.twitter.com/1.1/search/tweets.json?${query}  AND -filter:retweets AND -filter:replies&count=800&result_type=recent&exclude_replies=true`,
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
-          },
-        });
+    const data = await axios.get(`${process.env.REACT_APP_BACKEND}/twitter`);
 
-        let data2 = await axios({
-          url:
-            proxyurl +
-            `https://api.twitter.com/1.1/search/tweets.json?q=harmony $ONE OR #ONE&count=50&result_type=recent&exclude_replies=true`,
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_BEARERKEY}`,
-          },
-        });
+    console.log(data);
+    let dataFinal = [...data.data.data, ...data.data.data2]
+      // .filter((value) => {
+      //   if (value.in_reply_to_status_id === null) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // })
+      .map((value) => {
+        const split = value['created_at'].split(' ');
+        const date =
+          split[1] +
+          ' ' +
+          split[2] +
+          ' ' +
+          split[3].substring(0, 5) +
+          ' ' +
+          split[5];
+        console.log(date);
 
-        console.log(data2);
-        console.log('looks at this', data.data.statuses);
-        data = [...data.data.statuses, ...data2.data.statuses]
-          // .filter((value) => {
-          //   if (value.in_reply_to_status_id === null) {
-          //     return true;
-          //   } else {
-          //     return false;
-          //   }
-          // })
-          .map((value) => {
-            const split = value['created_at'].split(' ');
-            const date =
-              split[1] +
-              ' ' +
-              split[2] +
-              ' ' +
-              split[3].substring(0, 5) +
-              ' ' +
-              split[5];
-            console.log(date);
-
-            const entry = {
-              userName: value['user']['name'],
-              tweetText: value['text'],
-              tweetId: value['id_str'],
-              userId: value['user']['screen_name'],
-              created_at: date,
-              url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
-              profilePicUrl: value['user']['profile_image_url_https'].replace(
-                /_normal\./,
-                '.'
-              ),
-            };
-            return entry;
-          })
-          .sort((a, b) => {
-            return new Date(b.created_at) - new Date(a.created_at);
-          });
-        updateTweets(data);
-        setLoader(false);
+        const entry = {
+          userName: value['user']['name'],
+          tweetText: value['text'],
+          tweetId: value['id_str'],
+          userId: value['user']['screen_name'],
+          created_at: date,
+          url: `https://twitter.com/${value['user']['screen_name']}/status/${value['id_str']}`,
+          profilePicUrl: value['user']['profile_image_url_https'].replace(
+            /_normal\./,
+            '.'
+          ),
+        };
+        return entry;
+      })
+      .sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
       });
+    updateTweets(dataFinal);
+    setLoader(false);
   };
 
   useEffect(() => {
