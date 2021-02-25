@@ -93,7 +93,7 @@ export default function AlignItemsList() {
           rel="noreferrer"
           target="_blank"
         >
-          <ListItemText primary="Redit" />
+          <ListItemText primary="Reddit" />
         </a>
       </ListItem>
       <Divider variant="inset" component="li" />

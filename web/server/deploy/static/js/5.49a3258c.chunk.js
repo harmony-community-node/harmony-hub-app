@@ -617,7 +617,7 @@
                   href: 'https://www.reddit.com/r/harmony_one/',
                   rel: 'noreferrer',
                   target: '_blank',
-                  children: Object(r.jsx)(E, { primary: 'Redit' }),
+                  children: Object(r.jsx)(E, { primary: 'Reddit' }),
                 }),
               ],
             }),
@@ -705,4 +705,4 @@
     },
   },
 ]);
-//# sourceMappingURL=5.619e8749.chunk.js.map
+//# sourceMappingURL=5.49a3258c.chunk.js.map
