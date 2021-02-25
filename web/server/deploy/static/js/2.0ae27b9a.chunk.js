@@ -1,4 +1,4 @@
-/*! For license information please see 2.b2c3ee83.chunk.js.LICENSE.txt */
+/*! For license information please see 2.0ae27b9a.chunk.js.LICENSE.txt */
 (this.webpackJsonpweb = this.webpackJsonpweb || []).push([
   [2],
   [
@@ -42224,7 +42224,7 @@
                           'KZVfyzLxgo8wj1CErq7Oyq7J3kzuGDNTiVl8QfhH5ZLcmvJQNS',
                         REACT_APP_BEARERKEY:
                           'AAAAAAAAAAAAAAAAAAAAADNaKAEAAAAAlryqzmOSe8gTVsEt7cWzEzJrUnw%3DGXEMW8QU2ACiS7wIJ6tS9kDsQQGakZezAJdaRqCfTqbYfwKGNL',
-                        REACT_APP_BACKEND: 'http://108.61.75.87:4500',
+                        REACT_APP_BACKEND: '',
                       }),
                       u =
                         0 === this.connURL.indexOf('wss://')
@@ -45193,7 +45193,7 @@
                       'KZVfyzLxgo8wj1CErq7Oyq7J3kzuGDNTiVl8QfhH5ZLcmvJQNS',
                     REACT_APP_BEARERKEY:
                       'AAAAAAAAAAAAAAAAAAAAADNaKAEAAAAAlryqzmOSe8gTVsEt7cWzEzJrUnw%3DGXEMW8QU2ACiS7wIJ6tS9kDsQQGakZezAJdaRqCfTqbYfwKGNL',
-                    REACT_APP_BACKEND: 'http://108.61.75.87:4500',
+                    REACT_APP_BACKEND: '',
                   }).FIREBASE_DATABASE_EMULATOR_HOST),
                   c
                     ? ((a = !0),
@@ -49415,7 +49415,7 @@
                           'KZVfyzLxgo8wj1CErq7Oyq7J3kzuGDNTiVl8QfhH5ZLcmvJQNS',
                         REACT_APP_BEARERKEY:
                           'AAAAAAAAAAAAAAAAAAAAADNaKAEAAAAAlryqzmOSe8gTVsEt7cWzEzJrUnw%3DGXEMW8QU2ACiS7wIJ6tS9kDsQQGakZezAJdaRqCfTqbYfwKGNL',
-                        REACT_APP_BACKEND: 'http://108.61.75.87:4500',
+                        REACT_APP_BACKEND: '',
                       })) || void 0 === e
                       ? void 0
                       : e.Bn)
@@ -66980,4 +66980,4 @@
     },
   ],
 ]);
-//# sourceMappingURL=2.b2c3ee83.chunk.js.map
+//# sourceMappingURL=2.0ae27b9a.chunk.js.map

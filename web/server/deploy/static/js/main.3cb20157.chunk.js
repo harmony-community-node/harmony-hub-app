@@ -255,9 +255,7 @@
                         return (
                           j(!0),
                           (e.next = 3),
-                          U.a.get(
-                            ''.concat('http://108.61.75.87:4500', '/twitter')
-                          )
+                          U.a.get(''.concat('', '/twitter'))
                         );
                       case 3:
                         (t = e.sent),
@@ -515,4 +513,4 @@
   },
   [[116, 1, 2]],
 ]);
-//# sourceMappingURL=main.c6a1dea9.chunk.js.map
+//# sourceMappingURL=main.3cb20157.chunk.js.map

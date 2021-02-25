@@ -6,6 +6,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
+app.use(express.static('deploy'));
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -15,6 +16,10 @@ var allowCrossDomain = function (req, res, next) {
 };
 
 app.use(allowCrossDomain);
+
+app.get('/', (req, res) => {
+  res.sendFile('index.html');
+});
 
 app.get('/twitter', async (req, res) => {
   firebase
