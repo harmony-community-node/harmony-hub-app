@@ -7,47 +7,47 @@
       var n = a(4),
         c = a(2),
         r = a.n(c),
-        s = a(24),
-        i = a.n(s),
-        o = (a(89), a(22)),
-        l = (a(90), a(23)),
-        d = a(71),
-        j = a(144),
+        i = a(24),
+        s = a.n(i),
+        l = (a(89), a(22)),
+        o = (a(90), a(23)),
+        j = a(71),
+        d = a(144),
         b = a(145),
         h = a(153),
         u = a(146),
         p = a(143),
         O = a(152),
         x = a(67),
-        f = a.n(x),
-        m = a(141);
+        m = a.n(x),
+        f = a(141);
       function g() {
         return Object(n.jsx)('div', {
           className: 'loaderHar',
-          children: Object(n.jsx)(m.a, { color: 'secondary' }),
+          children: Object(n.jsx)(f.a, { color: 'secondary' }),
         });
       }
-      var A = Object(c.lazy)(function () {
+      var v = Object(c.lazy)(function () {
           return a.e(6).then(a.bind(null, 208));
         }),
-        v = Object(c.lazy)(function () {
+        w = Object(c.lazy)(function () {
           return Promise.all([a.e(3), a.e(4)]).then(a.bind(null, 209));
         }),
-        w = Object(c.lazy)(function () {
+        y = Object(c.lazy)(function () {
           return a.e(5).then(a.bind(null, 205));
         }),
-        y = Object(c.lazy)(function () {
+        _ = Object(c.lazy)(function () {
           return a.e(7).then(a.bind(null, 210));
         });
-      function _(e) {
+      function S(e) {
         var t = e.children,
           a = e.value,
           c = e.index,
-          r = Object(d.a)(e, ['children', 'value', 'index']);
+          r = Object(j.a)(e, ['children', 'value', 'index']);
         return Object(n.jsx)(
           'div',
-          Object(l.a)(
-            Object(l.a)(
+          Object(o.a)(
+            Object(o.a)(
               {
                 role: 'tabpanel',
                 hidden: a !== c,
@@ -68,13 +68,13 @@
           )
         );
       }
-      function S(e) {
+      function k(e) {
         return {
           id: 'simple-tab-'.concat(e),
           'aria-controls': 'simple-tabpanel-'.concat(e),
         };
       }
-      var k = Object(j.a)(function (e) {
+      var I = Object(d.a)(function (e) {
         return {
           root: {
             flexGrow: 1,
@@ -84,115 +84,115 @@
           },
         };
       });
-      function z() {
-        var e = k(),
+      function C() {
+        var e = I(),
           t = r.a.useState(0),
-          a = Object(o.a)(t, 2),
-          s = a[0],
-          i = a[1],
-          d = (new Date(), f.a.renderToStaticMarkup(Object(n.jsx)(g, {})));
+          a = Object(l.a)(t, 2),
+          i = a[0],
+          s = a[1],
+          j = (new Date(), m.a.renderToStaticMarkup(Object(n.jsx)(g, {})));
         return (
-          console.log(d),
+          console.log(j),
           Object(n.jsxs)('div', {
             className: e.root,
             children: [
               Object(n.jsx)(b.a, {
                 position: 'static',
                 children: Object(n.jsxs)(h.a, {
-                  value: s,
+                  value: i,
                   onChange: function (e, t) {
-                    i(t);
+                    s(t);
                   },
                   'aria-label': 'simple tabs example',
                   variant: 'fullWidth',
                   children: [
                     Object(n.jsx)(
                       u.a,
-                      Object(l.a)({ label: 'Calendar' }, S(0))
+                      Object(o.a)({ label: 'Calendar' }, k(0))
                     ),
                     Object(n.jsx)(
                       u.a,
-                      Object(l.a)({ label: 'Articles' }, S(1))
+                      Object(o.a)({ label: 'Articles' }, k(1))
                     ),
-                    Object(n.jsx)(u.a, Object(l.a)({ label: 'Youtube' }, S(2))),
+                    Object(n.jsx)(u.a, Object(o.a)({ label: 'Youtube' }, k(2))),
                     Object(n.jsx)(
                       u.a,
-                      Object(l.a)({ label: 'Harmony Links' }, S(3))
+                      Object(o.a)({ label: 'Harmony Links' }, k(3))
                     ),
                   ],
                 }),
               }),
-              Object(n.jsx)(_, {
-                value: s,
+              Object(n.jsx)(S, {
+                value: i,
                 index: 0,
                 children: Object(n.jsx)(c.Suspense, {
                   fallback: Object(n.jsx)('div', {
-                    dangerouslySetInnerHTML: { __html: d },
+                    dangerouslySetInnerHTML: { __html: j },
+                  }),
+                  children: Object(n.jsx)(w, {}),
+                }),
+              }),
+              Object(n.jsx)(S, {
+                value: i,
+                index: 1,
+                children: Object(n.jsx)(c.Suspense, {
+                  fallback: Object(n.jsx)('div', {
+                    dangerouslySetInnerHTML: { __html: j },
                   }),
                   children: Object(n.jsx)(v, {}),
                 }),
               }),
-              Object(n.jsx)(_, {
-                value: s,
-                index: 1,
-                children: Object(n.jsx)(c.Suspense, {
-                  fallback: Object(n.jsx)('div', {
-                    dangerouslySetInnerHTML: { __html: d },
-                  }),
-                  children: Object(n.jsx)(A, {}),
-                }),
-              }),
-              Object(n.jsx)(_, {
-                value: s,
+              Object(n.jsx)(S, {
+                value: i,
                 index: 2,
                 children: Object(n.jsx)(c.Suspense, {
                   fallback: Object(n.jsx)('div', {
-                    dangerouslySetInnerHTML: { __html: d },
+                    dangerouslySetInnerHTML: { __html: j },
                   }),
-                  children: Object(n.jsx)(y, {}),
+                  children: Object(n.jsx)(_, {}),
                 }),
               }),
-              Object(n.jsx)(_, {
-                value: s,
+              Object(n.jsx)(S, {
+                value: i,
                 index: 3,
                 children: Object(n.jsx)(c.Suspense, {
                   fallback: Object(n.jsx)('div', {
-                    dangerouslySetInnerHTML: { __html: d },
+                    dangerouslySetInnerHTML: { __html: j },
                   }),
-                  children: Object(n.jsx)(w, {}),
+                  children: Object(n.jsx)(y, {}),
                 }),
               }),
             ],
           })
         );
       }
-      var D = a(50),
-        N = a(27),
-        I = a.n(N),
-        C = a(43),
-        E = a(147),
-        T = a(148),
-        L = a(150),
-        B = a(149),
-        U = Object(j.a)({
+      var L = a(42),
+        T = a.n(L),
+        z = a(47),
+        B = a(50),
+        D = a(147),
+        N = a(148),
+        P = a(150),
+        A = a(149),
+        F = Object(d.a)({
           root: { maxWidth: 370 },
           media: { height: 60, width: 60 },
         });
-      function J(e) {
+      function H(e) {
         var t = e.state,
-          a = U();
-        return Object(n.jsx)(E.a, {
+          a = F();
+        return Object(n.jsx)(D.a, {
           className: a.root,
           children: Object(n.jsx)('a', {
             href: t.url,
             className: 'anchor',
             target: '_blank',
-            children: Object(n.jsxs)(T.a, {
+            children: Object(n.jsxs)(N.a, {
               children: [
                 Object(n.jsxs)('div', {
                   style: { display: 'flex', justifyContent: 'space-around' },
                   children: [
-                    Object(n.jsx)(B.a, {
+                    Object(n.jsx)(A.a, {
                       'data-sizes': 'auto',
                       'data-src': t.profilePicUrl,
                       className: a.media,
@@ -218,7 +218,7 @@
                     }),
                   ],
                 }),
-                Object(n.jsx)(L.a, {
+                Object(n.jsx)(P.a, {
                   children: Object(n.jsx)(p.a, {
                     variant: 'body2',
                     color: 'textSecondary',
@@ -231,177 +231,110 @@
           }),
         });
       }
-      var M = a(44),
-        q = a(47),
-        G = a.n(q);
+      a(51);
+      var M = a(53),
+        U = a.n(M);
       a(115);
-      function P() {
+      function R() {
         var e = Object(c.useState)([]),
-          t = Object(o.a)(e, 2),
+          t = Object(l.a)(e, 2),
           a = t[0],
           r = t[1],
-          s = Object(c.useState)(!0),
-          i = Object(o.a)(s, 2),
-          l = i[0],
-          d = i[1];
+          i = Object(c.useState)(!0),
+          s = Object(l.a)(i, 2),
+          o = s[0],
+          j = s[1],
+          d = (function () {
+            var e = Object(B.a)(
+              T.a.mark(function e() {
+                var t, a;
+                return T.a.wrap(function (e) {
+                  for (;;)
+                    switch ((e.prev = e.next)) {
+                      case 0:
+                        return (
+                          j(!0),
+                          (e.next = 3),
+                          U.a.get(
+                            ''.concat('http://108.61.75.87:4500', '/twitter')
+                          )
+                        );
+                      case 3:
+                        (t = e.sent),
+                          console.log(t),
+                          (a = []
+                            .concat(
+                              Object(z.a)(t.data.data),
+                              Object(z.a)(t.data.data2)
+                            )
+                            .map(function (e) {
+                              var t = e.created_at.split(' '),
+                                a =
+                                  t[1] +
+                                  ' ' +
+                                  t[2] +
+                                  ' ' +
+                                  t[3].substring(0, 5) +
+                                  ' ' +
+                                  t[5];
+                              return (
+                                console.log(a),
+                                {
+                                  userName: e.user.name,
+                                  tweetText: e.text,
+                                  tweetId: e.id_str,
+                                  userId: e.user.screen_name,
+                                  created_at: a,
+                                  url: 'https://twitter.com/'
+                                    .concat(e.user.screen_name, '/status/')
+                                    .concat(e.id_str),
+                                  profilePicUrl: e.user.profile_image_url_https.replace(
+                                    /_normal\./,
+                                    '.'
+                                  ),
+                                }
+                              );
+                            })
+                            .sort(function (e, t) {
+                              return (
+                                new Date(t.created_at) - new Date(e.created_at)
+                              );
+                            })),
+                          r(a),
+                          j(!1);
+                      case 8:
+                      case 'end':
+                        return e.stop();
+                    }
+                }, e);
+              })
+            );
+            return function () {
+              return e.apply(this, arguments);
+            };
+          })();
         return (
           Object(c.useEffect)(function () {
-            d(!0),
-              M.a
-                .firestore()
-                .collection('twitter_accounts')
-                .onSnapshot(
-                  (function () {
-                    var e = Object(C.a)(
-                      I.a.mark(function e(t) {
-                        var a, n, c, s;
-                        return I.a.wrap(function (e) {
-                          for (;;)
-                            switch ((e.prev = e.next)) {
-                              case 0:
-                                return (
-                                  (a = 'q='),
-                                  t.docs.forEach(
-                                    (function () {
-                                      var e = Object(C.a)(
-                                        I.a.mark(function e(t, n, c) {
-                                          var r;
-                                          return I.a.wrap(function (e) {
-                                            for (;;)
-                                              switch ((e.prev = e.next)) {
-                                                case 0:
-                                                  '$ONE' === (r = t.data()).name
-                                                    ? console.log(a)
-                                                    : n === c.length - 1
-                                                    ? (a += 'from:'.concat(
-                                                        r.handle
-                                                      ))
-                                                    : (a += 'from:'.concat(
-                                                        r.handle,
-                                                        '+OR+'
-                                                      ));
-                                                case 2:
-                                                case 'end':
-                                                  return e.stop();
-                                              }
-                                          }, e);
-                                        })
-                                      );
-                                      return function (t, a, n) {
-                                        return e.apply(this, arguments);
-                                      };
-                                    })()
-                                  ),
-                                  (n = 'https://cors-anywhere.herokuapp.com/'),
-                                  (e.next = 5),
-                                  G()({
-                                    url:
-                                      n +
-                                      'https://api.twitter.com/1.1/search/tweets.json?'.concat(
-                                        a,
-                                        '  AND -filter:retweets AND -filter:replies&count=800&result_type=recent&exclude_replies=true'
-                                      ),
-                                    headers: {
-                                      Authorization: 'Bearer '.concat(
-                                        'AAAAAAAAAAAAAAAAAAAAADNaKAEAAAAAlryqzmOSe8gTVsEt7cWzEzJrUnw%3DGXEMW8QU2ACiS7wIJ6tS9kDsQQGakZezAJdaRqCfTqbYfwKGNL'
-                                      ),
-                                    },
-                                  })
-                                );
-                              case 5:
-                                return (
-                                  (c = e.sent),
-                                  (e.next = 8),
-                                  G()({
-                                    url:
-                                      n +
-                                      'https://api.twitter.com/1.1/search/tweets.json?q=harmony $ONE OR #ONE&count=50&result_type=recent&exclude_replies=true',
-                                    headers: {
-                                      Authorization: 'Bearer '.concat(
-                                        'AAAAAAAAAAAAAAAAAAAAADNaKAEAAAAAlryqzmOSe8gTVsEt7cWzEzJrUnw%3DGXEMW8QU2ACiS7wIJ6tS9kDsQQGakZezAJdaRqCfTqbYfwKGNL'
-                                      ),
-                                    },
-                                  })
-                                );
-                              case 8:
-                                (s = e.sent),
-                                  console.log(s),
-                                  console.log('looks at this', c.data.statuses),
-                                  (c = []
-                                    .concat(
-                                      Object(D.a)(c.data.statuses),
-                                      Object(D.a)(s.data.statuses)
-                                    )
-                                    .map(function (e) {
-                                      var t = e.created_at.split(' '),
-                                        a =
-                                          t[1] +
-                                          ' ' +
-                                          t[2] +
-                                          ' ' +
-                                          t[3].substring(0, 5) +
-                                          ' ' +
-                                          t[5];
-                                      return (
-                                        console.log(a),
-                                        {
-                                          userName: e.user.name,
-                                          tweetText: e.text,
-                                          tweetId: e.id_str,
-                                          userId: e.user.screen_name,
-                                          created_at: a,
-                                          url: 'https://twitter.com/'
-                                            .concat(
-                                              e.user.screen_name,
-                                              '/status/'
-                                            )
-                                            .concat(e.id_str),
-                                          profilePicUrl: e.user.profile_image_url_https.replace(
-                                            /_normal\./,
-                                            '.'
-                                          ),
-                                        }
-                                      );
-                                    })
-                                    .sort(function (e, t) {
-                                      return (
-                                        new Date(t.created_at) -
-                                        new Date(e.created_at)
-                                      );
-                                    })),
-                                  r(c),
-                                  d(!1);
-                              case 14:
-                              case 'end':
-                                return e.stop();
-                            }
-                        }, e);
-                      })
-                    );
-                    return function (t) {
-                      return e.apply(this, arguments);
-                    };
-                  })()
-                );
+            d();
           }, []),
           console.log(a),
           Object(n.jsxs)('div', {
             className: 'flexTweet',
             children: [
-              l && Object(n.jsx)(m.a, {}),
-              !l &&
+              o && Object(n.jsx)(f.a, {}),
+              !o &&
                 a.length > 0 &&
                 a.map(function (e, t) {
-                  return Object(n.jsx)(J, { state: e });
+                  return Object(n.jsx)(H, { state: e });
                 }),
             ],
           })
         );
       }
-      var R = a(151);
-      var W = function () {
+      var W = a(151);
+      var J = function () {
           var e = Object(c.useState)(window.innerWidth > window.innerHeight),
-            t = Object(o.a)(e, 2),
+            t = Object(l.a)(e, 2),
             a = t[0];
           return (
             t[1],
@@ -426,7 +359,7 @@
                               height: '100%',
                             }),
                           }),
-                          Object(n.jsx)(R.a, { orientation: 'vertical' }),
+                          Object(n.jsx)(W.a, { orientation: 'vertical' }),
                           Object(n.jsxs)('div', {
                             children: [
                               ' ',
@@ -455,7 +388,7 @@
                           }),
                         ],
                       }),
-                      Object(n.jsx)(R.a, {}),
+                      Object(n.jsx)(W.a, {}),
                       Object(n.jsxs)('div', {
                         style: { display: 'flex', height: '100%' },
                         children: [
@@ -464,10 +397,10 @@
                             children: [
                               Object(n.jsx)('br', {}),
                               Object(n.jsx)('br', {}),
-                              Object(n.jsx)(P, {}),
+                              Object(n.jsx)(R, {}),
                             ],
                           }),
-                          Object(n.jsx)(z, {}),
+                          Object(n.jsx)(C, {}),
                           Object(n.jsx)('div', {
                             children: Object(n.jsx)('iframe', {
                               id: 'tgw_5fff3a4583ba882b538b4569',
@@ -531,7 +464,7 @@
             })
           );
         },
-        F = function (e) {
+        E = function (e) {
           e &&
             e instanceof Function &&
             a
@@ -542,19 +475,19 @@
                   n = t.getFID,
                   c = t.getFCP,
                   r = t.getLCP,
-                  s = t.getTTFB;
-                a(e), n(e), c(e), r(e), s(e);
+                  i = t.getTTFB;
+                a(e), n(e), c(e), r(e), i(e);
               });
         };
-      i.a.render(
-        Object(n.jsx)(r.a.StrictMode, { children: Object(n.jsx)(W, {}) }),
+      s.a.render(
+        Object(n.jsx)(r.a.StrictMode, { children: Object(n.jsx)(J, {}) }),
         document.getElementById('root')
       ),
-        F();
+        E();
     },
-    44: function (e, t, a) {
+    51: function (e, t, a) {
       'use strict';
-      var n = a(33);
+      var n = a(32);
       n.a.initializeApp({
         apiKey: 'AIzaSyBbwiU1hnRpaWmviOtfUDMa7uAd_LSFBic',
         authDomain: 'harmonyhubapp-c0044.firebaseapp.com',
@@ -582,4 +515,4 @@
   },
   [[116, 1, 2]],
 ]);
-//# sourceMappingURL=main.8947d046.chunk.js.map
+//# sourceMappingURL=main.c6a1dea9.chunk.js.map

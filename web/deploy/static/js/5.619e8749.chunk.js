@@ -79,7 +79,7 @@
           { name: 'MuiList' }
         )(d),
         b = t(74);
-      var h = t(35),
+      var h = t(34),
         u = t(24),
         m = 'undefined' === typeof window ? a.useEffect : a.useLayoutEffect,
         j = a.forwardRef(function (A, e) {
@@ -369,7 +369,7 @@
           },
           { name: 'MuiListItemAvatar' }
         )(x),
-        M = t(36),
+        M = t(35),
         C = Object(M.a)(
           a.createElement('path', {
             d:
@@ -705,4 +705,4 @@
     },
   },
 ]);
-//# sourceMappingURL=5.37f17169.chunk.js.map
+//# sourceMappingURL=5.619e8749.chunk.js.map
