@@ -1,6 +1,11 @@
 import 'package:HarmonyHub/models/calendar_event.dart';
+import 'package:HarmonyHub/models/forum_details.dart';
+import 'package:HarmonyHub/models/project_details.dart';
+import 'package:HarmonyHub/models/social_media_links.dart';
+import 'package:HarmonyHub/models/video_sources.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
@@ -44,6 +49,20 @@ class Global {
 
   static List<String> allTwitterHandles = new List<String>();
   static List<CalendarEvent> events = new List<CalendarEvent>();
+  static List<SocialMediaLinks> smLinks = new List<SocialMediaLinks>();
+  static List<VideoSource> videoSources = new List<VideoSource>();
+  static List<ForumDetails> forumDetails = new List<ForumDetails>();
+  static List<ProjectDetails> projectDetails = new List<ProjectDetails>();
+
+  static String projectIdKey = 'PROJECT_ID';
+
+  static Future<String> getProjectId() async {
+    String projectId = await Global.getUserPreferences(projectIdKey);
+    if (projectId == null || projectId == '') {
+      projectId = "ONE";
+    }
+    return projectId;
+  }
 
   static Future<String> getMyValONEAddress() async {
     if (Global.myValONEAddress == '') {
@@ -94,7 +113,8 @@ class Global {
   }
 
   static Future<void> getTwitterAccounts() async {
-    FirebaseFirestore.instance.collection('twitter_accounts').get().then((value) {
+    String projectId = await Global.getProjectId();
+    FirebaseFirestore.instance.collection('twitter_accounts').where('project_id', isEqualTo: projectId).get().then((value) {
       allTwitterHandles.clear();
       value.docs.forEach((element) {
         allTwitterHandles.add(element["handle"]);
@@ -186,5 +206,29 @@ class Global {
       c = Colors.purple;
     }
     return c;
+  }
+
+  static IconData getIconForString(String strIcon) {
+    if (strIcon == "browser" || strIcon == "firefoxBrowser") {
+      return FontAwesomeIcons.firefoxBrowser;
+    } else if (strIcon == "bookReader") {
+      return FontAwesomeIcons.bookReader;
+    } else if (strIcon == "building") {
+      return FontAwesomeIcons.building;
+    } else if (strIcon == "youtube") {
+      return FontAwesomeIcons.youtube;
+    } else if (strIcon == "discord") {
+      return FontAwesomeIcons.discord;
+    } else if (strIcon == "reddit") {
+      return FontAwesomeIcons.reddit;
+    } else if (strIcon == "github") {
+      return FontAwesomeIcons.github;
+    } else if (strIcon == "telegram") {
+      return FontAwesomeIcons.telegram;
+    } else if (strIcon == "bookReader") {
+      return FontAwesomeIcons.bookReader;
+    } else {
+      return FontAwesomeIcons.question;
+    }
   }
 }

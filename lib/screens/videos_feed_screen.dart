@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:HarmonyHub/components/video_list_item.dart';
+import 'package:HarmonyHub/models/video_sources.dart';
 import 'package:HarmonyHub/screens/info_screen.dart';
+import 'package:HarmonyHub/services/video_source_service.dart';
 import 'package:HarmonyHub/youtube_api/youtube_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../components/resuable_card.dart';
 import '../utilities/constants.dart';
@@ -21,10 +25,15 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
   List<Widget> youtubeItems = new List<Widget>();
   YoutubeAPI ytApi = new YoutubeAPI(Secretes.youtubeAccessKey);
   List<YT_API> videoFeed = new List<YT_API>();
+  VideoSourceService vSourceService = new VideoSourceService();
 
   Future<void> callYoutubeAPI() async {
-    videoFeed = await ytApi.channel(Global.harmonyYoutubeChannelId);
-    refreshData();
+    List<VideoSource> vSources = await vSourceService.getVideoSources();
+    if (vSources.length > 0) {
+      String channelId = vSources[0].channelId;
+      videoFeed = await ytApi.channel(channelId);
+      refreshData();
+    }
   }
 
   Future<void> refreshData() async {
@@ -48,26 +57,21 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
                 feed.thumbnail["default"]["url"],
               ),
         moreDetails: true,
-        openMoreDetails: () {
-          /*Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => YoutubePlayerScreen(
-                title: feed.title,
-                videoId: feed.id,
+        openMoreDetails: () async {
+          if (Platform.isIOS) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InformationScreen(
+                  title: feed.title,
+                  url: "https://www.youtube.com/watch?v=${feed.id}",
+                ),
               ),
-            ),
-          );*/
-          print(feed.url);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InformationScreen(
-                title: feed.title,
-                url: "https://www.youtube.com/watch?v=${feed.id}",
-              ),
-            ),
-          );
+            );
+          } else {
+            String url = "https://www.youtube.com/watch?v=${feed.id}";
+            await canLaunch(url) ? await launch(url) : print('Could not launch $url');
+          }
         },
       );
       videos.add(item);

@@ -9,10 +9,15 @@ import 'package:HarmonyHub/utilities/constants.dart';
 import 'package:HarmonyHub/utilities/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -45,6 +50,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   // create some values
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -284,6 +290,33 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     Navigator.pop(context, true);
   }
 
+  void addReminder() async {
+    try {
+      var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+      var initializationSettingsIOS = new IOSInitializationSettings(requestSoundPermission: false);
+      var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+      );
+      await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+      tz.initializeTimeZones();
+      var time = tz.TZDateTime.from(_calendarEvent.from.add(Duration(minutes: -15)), tz.local);
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          1234,
+          _calendarEvent.eventTitle,
+          _calendarEvent.eventNotes,
+          time,
+          const NotificationDetails(
+              android: AndroidNotificationDetails('1234', 'HarmonyHUB App Name', 'HarmonyHUB App Desc',
+                  priority: Priority.high, importance: Importance.high, fullScreenIntent: true)),
+          androidAllowWhileIdle: true,
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+      showValidationMessage("Reminder is added, you will be reminded 15 minutes before the event");
+    } on Exception {
+      showValidationMessage("Not able to create a reminder, please try again later.");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Global.checkIfDarkModeEnabled(context);
@@ -300,14 +333,29 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             'assets/app_icon.png',
           ),
         ),
-        actions: [
-          new IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              close();
-            },
-          ),
-        ],
+        actions: !_newEvent
+            ? [
+                new IconButton(
+                  icon: Icon(FontAwesomeIcons.bell),
+                  onPressed: () {
+                    addReminder();
+                  },
+                ),
+                new IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    close();
+                  },
+                )
+              ]
+            : [
+                new IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    close();
+                  },
+                ),
+              ],
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
@@ -516,7 +564,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                           showTitleActions: true, onConfirm: (time) {
                         _calendarEvent.from = time;
-                        _calendarEvent.to = _calendarEvent.from.add(Duration(minutes: 30));
+                        //_calendarEvent.to = _calendarEvent.from.add(Duration(minutes: 30));
                         _startTime = '${time.hour} : ${time.minute.toString().padLeft(2, '0')}';
                         _endTime = '${_calendarEvent.to.hour} : ${_calendarEvent.to.minute.toString().padLeft(2, '0')}';
                         setState(() {});
@@ -587,7 +635,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                           showTitleActions: true, onConfirm: (time) {
                         _calendarEvent.to = time;
-                        _calendarEvent.from = _calendarEvent.to.add(Duration(minutes: -30));
+                        //_calendarEvent.from = _calendarEvent.to.add(Duration(minutes: -30));
                         _startTime = '${_calendarEvent.from.hour} : ${_calendarEvent.from.minute.toString().padLeft(2, '0')}';
                         _endTime = '${time.hour} : ${time.minute.toString().padLeft(2, '0')}';
                         setState(() {});

@@ -35,7 +35,7 @@ class HarmonyHubNotificationHandler {
       iOS: initializationSettingsIOS,
     );
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
     //print('User granted permission: ${settings.authorizationStatus}');
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       Map<String, dynamic> notification = new Map<String, dynamic>();

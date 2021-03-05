@@ -1,6 +1,7 @@
-import 'dart:io';
-
+import 'package:HarmonyHub/models/social_media_links.dart';
 import 'package:HarmonyHub/screens/info_screen.dart';
+import 'package:HarmonyHub/screens/project_selection_screen.dart';
+import 'package:HarmonyHub/services/social_media_links_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,13 +13,18 @@ import '../utilities/globals.dart';
 import 'info_screen.dart';
 
 class SocialMediaScreen extends StatefulWidget {
+  SocialMediaScreen({this.refreshBottomNavigation});
+  final Function refreshBottomNavigation;
   @override
   _SocialMediaScreenState createState() => _SocialMediaScreenState();
 }
 
 class _SocialMediaScreenState extends State<SocialMediaScreen> {
   List<dynamic> socialItems = new List<dynamic>();
+  List<SocialMediaLinks> smLinks = new List<SocialMediaLinks>();
+  SocialMediaLinksService smLinksService = new SocialMediaLinksService();
   int itemsCount = 0;
+  Function _refreshBottomNavigation;
 
   Future<void> _showMyDialog(String message) async {
     return showDialog<void>(
@@ -63,186 +69,18 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     );
   }
 
-  void openYoutube() async {
-    if (Platform.isIOS) {
-      if (await canLaunch(Global.harmonyYoutubeAppLink)) {
-        await launch(Global.harmonyYoutubeAppLink, forceSafariVC: false);
-      } else {
-        if (await canLaunch(Global.harmonyYoutubeWebLink)) {
-          print('Here');
-          await launch(Global.harmonyYoutubeWebLink);
-        } else {
-          _showMyDialog('Something went wrong, please try again later.');
-        }
-      }
-    } else {
-      if (await canLaunch(Global.harmonyYoutubeWebLink)) {
-        await launch(Global.harmonyYoutubeWebLink);
-      } else {
-        _showMyDialog('Something went wrong, please try again later.');
-      }
-    }
-  }
-
-  void gotoHarmonyScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InformationScreen(
-          url: Global.harmonyOneUrl,
-          title: 'Harmony.one',
-        ),
-      ),
-    );
-  }
-
-  void gotoHarmonyDocumentation() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InformationScreen(
-          url: Global.docsUrl,
-          title: 'Documentation',
-        ),
-      ),
-    );
-  }
-
-  void gotoHarmonyValidatorsWebLink() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InformationScreen(
-          url: Global.harmonyValidatorsWebLink,
-          title: 'Harmony Validators',
-        ),
-      ),
-    );
-  }
-
-  void openTelegram() async {
-    if (await canLaunch(Global.harmonyTelegramLink)) {
-      launch(Global.harmonyTelegramLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void openPrarySoft() async {
-    if (await canLaunch(Global.prarySoftLink)) {
-      await launch(Global.prarySoftLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void openDiscord() async {
-    if (await canLaunch(Global.harmonyDiscordLink)) {
-      await launch(Global.harmonyDiscordLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void openReddit() async {
-    if (await canLaunch(Global.harmonyRedditLink)) {
-      await launch(Global.harmonyRedditLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void openGithub() async {
-    if (await canLaunch(Global.harmonyGithubLink)) {
-      await launch(Global.harmonyGithubLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void openHCNTelegram() async {
-    if (await canLaunch(Global.hcnTelegramLink)) {
-      await launch(Global.hcnTelegramLink);
-    } else {
-      _showMyDialog('Something went wrong, please try again later.');
-    }
-  }
-
-  void refreshData() {
-    List<dynamic> setItems = new List<dynamic>();
-    setItems.add(
-      {
-        'title': 'Harmony.one',
-        'icon': FontAwesomeIcons.firefoxBrowser,
-        'event': gotoHarmonyScreen,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Documentation',
-        'icon': FontAwesomeIcons.bookReader,
-        'event': gotoHarmonyDocumentation,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Harmony Validators',
-        'icon': FontAwesomeIcons.building,
-        'event': gotoHarmonyValidatorsWebLink,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Youtube',
-        'icon': FontAwesomeIcons.youtube,
-        'event': openYoutube,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Discord',
-        'icon': FontAwesomeIcons.discord,
-        'event': openDiscord,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Reddit',
-        'icon': FontAwesomeIcons.reddit,
-        'event': openReddit,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Github',
-        'icon': FontAwesomeIcons.github,
-        'event': openGithub,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Telegram',
-        'icon': FontAwesomeIcons.telegram,
-        'event': openTelegram,
-      },
-    );
-    setItems.add(
-      {
-        'title': 'Harmony Community Node',
-        'icon': FontAwesomeIcons.telegram,
-        'event': openHCNTelegram,
-      },
-    );
-
+  void refreshData() async {
+    List<SocialMediaLinks> links = await smLinksService.getSocialMediaLinks();
     setState(() {
-      socialItems = setItems;
-      itemsCount = socialItems.length;
+      smLinks = links;
+      itemsCount = smLinks.length;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _refreshBottomNavigation = widget.refreshBottomNavigation;
     refreshData();
   }
 
@@ -258,6 +96,22 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
             'assets/app_icon.png',
           ),
         ),
+        actions: [
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.infoCircle),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProjectSelectionScreen(),
+                ),
+              ).whenComplete(() {
+                refreshData();
+                _refreshBottomNavigation();
+              });
+            },
+          ),
+        ],
       ),
       body: Container(
         child: ListView(
@@ -268,7 +122,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
               shrinkWrap: true,
               itemCount: itemsCount,
               itemBuilder: (BuildContext context, int index) {
-                var item = socialItems[index];
+                SocialMediaLinks item = smLinks[index];
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                   child: ReusableCard(
@@ -279,19 +133,37 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
                         size: 20.0,
                       ),
                       leading: Icon(
-                        item['icon'],
+                        Global.getIconForString(item.icon),
                         color: kHmyMainColor,
                         size: 20.0,
                       ),
                       title: Text(
-                        item['title'],
+                        item.title,
                         style: GoogleFonts.nunito(
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
-                      onTap: item['event'],
+                      onTap: () async {
+                        if (item.linkType == 'app') {
+                          if (await canLaunch(item.url)) {
+                            launch(item.url);
+                          } else {
+                            _showMyDialog('Something went wrong, please try again later.');
+                          }
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InformationScreen(
+                                url: item.url,
+                                title: item.title,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
                     colour: Global.isDarkModeEnabled ? Colors.black : Colors.white,
                   ),

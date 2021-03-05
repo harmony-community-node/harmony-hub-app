@@ -79,7 +79,31 @@ class _CalenderScreenState extends State<CalendarScreen> {
           ),
         ),
         view: CalendarView.month,
-        monthViewSettings: MonthViewSettings(showAgenda: true),
+        monthViewSettings: MonthViewSettings(
+          showAgenda: true,
+          agendaStyle: AgendaStyle(
+              dayTextStyle: GoogleFonts.nunito(
+                fontSize: 12,
+                fontStyle: FontStyle.normal,
+                letterSpacing: 1,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              dateTextStyle: GoogleFonts.nunito(
+                fontSize: 12,
+                fontStyle: FontStyle.normal,
+                letterSpacing: 1,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              appointmentTextStyle: GoogleFonts.nunito(
+                fontSize: 12,
+                fontStyle: FontStyle.normal,
+                letterSpacing: 1,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              )),
+        ),
         firstDayOfWeek: 7,
         dataSource: MeetingDataSource(_events),
         initialSelectedDate: DateTime.now(),

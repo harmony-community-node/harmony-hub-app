@@ -12,9 +12,11 @@ class EventService {
     DateFormat dateFormat = new DateFormat("E, d MMM y H:m:s");
     FirebaseAuthService fas = new FirebaseAuthService();
     String userId = await fas.getUserId();
+    String projectId = await Global.getProjectId();
     if (userId != null) {
       QuerySnapshot visibleDatesEvents = await FirebaseFirestore.instance
           .collection(calenderEventsTableName)
+          .where('project_id', isEqualTo: projectId)
           .where('start_date', isGreaterThanOrEqualTo: startDate)
           .where('start_date', isLessThanOrEqualTo: endDate)
           .get();
@@ -77,6 +79,7 @@ class EventService {
     DateFormat dateFormat = new DateFormat("E, d MMM y H:m:s");
     FirebaseAuthService fas = new FirebaseAuthService();
     String userId = await fas.getUserId();
+    String projectId = await Global.getProjectId();
     if (userId != null) {
       bool success = false;
       if (event.docId != null) {
@@ -115,7 +118,8 @@ class EventService {
             'end_date': event.to,
             'recurrence_type': event.recurrenceType,
             'recurrence_rule': event.recurrenceRule,
-            'recurrent': event.recurrent
+            'recurrent': event.recurrent,
+            'project_id': projectId
           },
         );
         if (_new.id != null) {

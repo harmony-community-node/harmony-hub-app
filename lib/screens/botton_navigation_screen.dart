@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:HarmonyHub/models/forum_details.dart';
 import 'package:HarmonyHub/screens/calendar_screen.dart';
 import 'package:HarmonyHub/screens/socialmedia_links_screen.dart';
 import 'package:HarmonyHub/screens/videos_feed_screen.dart';
+import 'package:HarmonyHub/services/forum_service.dart';
 import 'package:HarmonyHub/services/notification_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,6 +25,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   PageController _c;
   int _page = 0;
   final HarmonyHubNotificationHandler notificationHandler = HarmonyHubNotificationHandler();
+  List<Widget> screens = new List<Widget>();
+  ForumService forumService = new ForumService();
 
   InformationScreen forumScreen = new InformationScreen(
     url: Global.forumUrl,
@@ -33,11 +37,36 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   @override
   void initState() {
     super.initState();
-    Global.getInitializer();
+    //Global.getInitializer();
     _c = new PageController(
       initialPage: _page,
     );
     notificationHandler.initNotifications(context);
+    refreshScreens();
+  }
+
+  void refreshScreens() async {
+    List<ForumDetails> forumDetails = await forumService.getForumDetails();
+    if (forumDetails.length > 0) {
+      forumScreen = new InformationScreen(
+        url: forumDetails[0].url,
+        title: forumDetails[0].title,
+        showAppIcon: true,
+      );
+    }
+    setState(() {
+      screens.clear();
+      screens.add(new CalendarScreen());
+      screens.add(new TwitterFeedScreen());
+      screens.add(new MediumFeedScreen());
+      screens.add(new VideosFeedScreen());
+      if (forumScreen != null) {
+        screens.add(forumScreen);
+      }
+      screens.add(new SocialMediaScreen(
+        refreshBottomNavigation: refreshScreens,
+      ));
+    });
   }
 
   @override
@@ -50,22 +79,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             this._page = newPage;
           });
         },
-        children: Platform.isIOS
-            ? <Widget>[
-                new CalendarScreen(),
-                new TwitterFeedScreen(),
-                new MediumFeedScreen(),
-                new VideosFeedScreen(),
-                forumScreen,
-                SocialMediaScreen(),
-              ]
-            : <Widget>[
-                new CalendarScreen(),
-                new TwitterFeedScreen(),
-                new MediumFeedScreen(),
-                forumScreen,
-                SocialMediaScreen(),
-              ],
+        children: Platform.isIOS ? screens : screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 18,
@@ -84,8 +98,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   label: 'Articles',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.youtube),
-                  label: 'Youtube',
+                  icon: Icon(FontAwesomeIcons.video),
+                  label: 'Videos',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.commentDots),
@@ -99,23 +113,27 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             : const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.calendar),
-                  title: Text('Calendar'),
+                  label: 'Calendar',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.hashtag),
-                  title: Text('Social'),
+                  label: 'Social',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.mediumM),
-                  title: Text('Articles'),
+                  label: 'Articles',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.video),
+                  label: 'Videos',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.commentDots),
-                  title: Text('Forum'),
+                  label: 'Forum',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.info),
-                  title: Text('Info'),
+                  label: 'Info',
                 ),
               ],
         currentIndex: _page,

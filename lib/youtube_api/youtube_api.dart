@@ -69,7 +69,7 @@ class YoutubeAPI {
   Future<List> nextPage() async {
     List<YT_API> result = [];
     Uri url = api.nextPageUri();
-    print(url);
+    //print(url);
     var res = await http.get(url, headers: {"Accept": "application/json"});
     var jsonData = json.decode(res.body);
 
@@ -97,7 +97,7 @@ class YoutubeAPI {
   Future<List> prevPage() async {
     List<YT_API> result = [];
     Uri url = api.nextPageUri();
-    print(url);
+    //print(url);
     var res = await http.get(url, headers: {"Accept": "application/json"});
     var jsonData = json.decode(res.body);
 
@@ -160,8 +160,8 @@ class YT_API {
     };
     kind = data['id']['kind'].substring(8);
     id = data['id'][data['id'].keys.elementAt(1)];
-    print(data['id'].keys.elementAt(1));
-    print(id);
+    //print(data['id'].keys.elementAt(1));
+    //print(id);
     url = getURL(kind, id);
     publishedAt = data['snippet']['publishedAt'];
     channelId = data['snippet']['channelId'];
