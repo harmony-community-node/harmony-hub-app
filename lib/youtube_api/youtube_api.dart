@@ -55,9 +55,12 @@ class YoutubeAPI {
 
     nextPageToken = jsonData['nextPageToken'];
     api.setNextPageToken(nextPageToken);
-    int total = jsonData['pageInfo']['totalResults'] < jsonData['pageInfo']['resultsPerPage']
-        ? jsonData['pageInfo']['totalResults']
-        : jsonData['pageInfo']['resultsPerPage'];
+    print(jsonData);
+    int total = jsonData['pageInfo'] != null
+        ? jsonData['pageInfo']['totalResults'] < jsonData['pageInfo']['resultsPerPage']
+            ? jsonData['pageInfo']['totalResults']
+            : jsonData['pageInfo']['resultsPerPage']
+        : 0;
     for (int i = 0; i < total; i++) {
       result.add(new YT_API(jsonData['items'][i]));
     }

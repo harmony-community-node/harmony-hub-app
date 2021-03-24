@@ -12,6 +12,7 @@ class VideoSourceService {
     String userId = await fas.getUserId();
     String projectId = await Global.getProjectId();
     if (userId != null) {
+      Global.videoSources.clear();
       QuerySnapshot videoSources = await FirebaseFirestore.instance
           .collection(videoSourcesTable)
           .where(
@@ -19,7 +20,6 @@ class VideoSourceService {
             isEqualTo: projectId,
           )
           .get();
-      Global.videoSources.clear();
       List<String> docIds = new List<String>();
       for (int i = 0; i < videoSources.docs.length; i++) {
         var element = videoSources.docs[i];
@@ -32,6 +32,7 @@ class VideoSourceService {
         );
         Global.videoSources.add(vSource);
       }
+      return Global.videoSources;
     }
     return Global.videoSources;
   }

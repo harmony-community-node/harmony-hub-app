@@ -26,8 +26,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int _page = 0;
   final HarmonyHubNotificationHandler notificationHandler = HarmonyHubNotificationHandler();
   List<Widget> screens = new List<Widget>();
+  final PageStorageBucket bucket = PageStorageBucket();
   ForumService forumService = new ForumService();
-
+  CalendarScreen _calendarScreen;
+  TwitterFeedScreen _twitterFeedScreen;
+  MediumFeedScreen _mediumFeedScreen;
+  VideosFeedScreen _videosFeedScreen;
   InformationScreen forumScreen = new InformationScreen(
     url: Global.forumUrl,
     title: 'Forum',
@@ -36,16 +40,16 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   @override
   void initState() {
-    super.initState();
     //Global.getInitializer();
+    super.initState();
     _c = new PageController(
       initialPage: _page,
     );
     notificationHandler.initNotifications(context);
-    refreshScreens();
+    setupScreens();
   }
 
-  void refreshScreens() async {
+  void setupScreens() async {
     List<ForumDetails> forumDetails = await forumService.getForumDetails();
     if (forumDetails.length > 0) {
       forumScreen = new InformationScreen(
@@ -54,19 +58,39 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         showAppIcon: true,
       );
     }
+    _calendarScreen = new CalendarScreen();
+    _twitterFeedScreen = new TwitterFeedScreen(key: TwitterFeedScreen.twitterFeedScreenKey);
+    _mediumFeedScreen = new MediumFeedScreen(key: MediumFeedScreen.articleFeedScreenKey);
+    _videosFeedScreen = new VideosFeedScreen(key: VideosFeedScreen.videoFeedScreenKey);
     setState(() {
       screens.clear();
-      screens.add(new CalendarScreen());
-      screens.add(new TwitterFeedScreen());
-      screens.add(new MediumFeedScreen());
-      screens.add(new VideosFeedScreen());
-      if (forumScreen != null) {
-        screens.add(forumScreen);
-      }
-      screens.add(new SocialMediaScreen(
-        refreshBottomNavigation: refreshScreens,
-      ));
     });
+    List<Widget> srs = new List<Widget>();
+    srs.add(_calendarScreen);
+    srs.add(_twitterFeedScreen);
+    srs.add(_mediumFeedScreen);
+    srs.add(new VideosFeedScreen());
+    if (forumScreen != null) {
+      srs.add(forumScreen);
+    }
+    srs.add(new SocialMediaScreen(
+      refreshBottomNavigation: refreshScreens,
+    ));
+    setState(() {
+      screens = srs;
+    });
+  }
+
+  void refreshScreens() {
+    try {
+      _twitterFeedScreen.refreshTweets();
+    } catch (Exception) {}
+    try {
+      _videosFeedScreen.refreshVideos();
+    } catch (Exception) {}
+    try {
+      _mediumFeedScreen.refreshArticles();
+    } catch (Exception) {}
   }
 
   @override
@@ -138,6 +162,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               ],
         currentIndex: _page,
         onTap: (index) {
+          _page = index;
           this._c.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
         },
         selectedItemColor: kHmyMainColor,

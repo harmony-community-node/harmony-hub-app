@@ -16,7 +16,12 @@ class TwitterFilterScreen extends StatefulWidget {
 class _TwitterFilterScreenState extends State<TwitterFilterScreen> {
   List<String> filters = new List<String>();
   Function refreshTweets;
+  String projectId;
   Future<void> getTwitterFilters() async {
+    projectId = await Global.getProjectId();
+    if (projectId == null || projectId == "") {
+      projectId = "ONE";
+    }
     filters = await Global.getUserFavList(Global.favoriteTwitterHandlesKey);
   }
 
@@ -79,7 +84,13 @@ class _TwitterFilterScreenState extends State<TwitterFilterScreen> {
           ),
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('twitter_accounts').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('twitter_accounts')
+              .where(
+                'project_id',
+                isEqualTo: projectId,
+              )
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               SpinKitDoubleBounce(

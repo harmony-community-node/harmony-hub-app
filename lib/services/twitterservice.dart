@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:HarmonyHub/components/list_view_item.dart';
 import 'package:HarmonyHub/models/twitter_feed.dart';
 import 'package:HarmonyHub/screens/info_screen.dart';
+import 'package:HarmonyHub/services/firebase_auth.dart';
 import 'package:HarmonyHub/utilities/globals.dart';
 import 'package:HarmonyHub/utilities/secretes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -19,23 +22,67 @@ class TwitterService {
   );
   List<Widget> twitterItems = new List<Widget>();
   List<TwitterFeed> tweetFeed = new List<TwitterFeed>();
-
+  final String twitterAccountsTable = "twitter_accounts";
   Future<List<Widget>> getTweets(BuildContext context) async {
-    await Global.getInitializer();
-    List<String> twitterHandles = await Global.getUserFavList(Global.favoriteTwitterHandlesKey);
-    if (twitterHandles == null || twitterHandles.length == 0) {
-      Global.allTwitterHandles.add("harmonyprotocol");
-      Global.allTwitterHandles.add("stse");
-      /*
-      Global.allTwitterHandles.add("nickwh8te");
-      Global.allTwitterHandles.add("SahilDewan");
-      Global.allTwitterHandles.add("GIZEMCAKIL");
-      */
-      Global.setUserFavList(Global.favoriteTwitterHandlesKey, Global.allTwitterHandles);
-      return await getTweetsData(context);
+    await Firebase.initializeApp();
+    FirebaseAuthService fas = new FirebaseAuthService();
+    String userId = await fas.getUserId();
+    String projectId = await Global.getProjectId();
+    if (userId != null) {
+      Global.allTwitterHandles.clear();
+      QuerySnapshot twitterAccounts = await FirebaseFirestore.instance
+          .collection(twitterAccountsTable)
+          .where(
+            'project_id',
+            isEqualTo: projectId,
+          )
+          .get();
+      List<String> docIds = new List<String>();
+      for (int i = 0; i < twitterAccounts.docs.length; i++) {
+        var element = twitterAccounts.docs[i];
+        Global.allTwitterHandles.add(element['handle']);
+      }
+      if (Global.allTwitterHandles.length > 0) {
+        return await getTweetsData(context);
+      } else {
+        List<Widget> items = new List<Widget>();
+        ListViewItem item = ListViewItem(
+          height: 80,
+          title: "",
+          text: "No Tweets to display, please select favorites accounts from the Twitter filter.",
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(25.0),
+            child: Icon(
+              FontAwesomeIcons.twitter,
+              size: 40,
+            ),
+          ),
+          moreDetails: false,
+        );
+        items.add(
+          item,
+        );
+        return items;
+      }
     } else {
-      Global.allTwitterHandles = twitterHandles;
-      return await getTweetsData(context);
+      List<Widget> items = new List<Widget>();
+      ListViewItem item = ListViewItem(
+        height: 80,
+        title: "",
+        text: "No Tweets to display, please select favorites accounts from the Twitter filter.",
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(25.0),
+          child: Icon(
+            FontAwesomeIcons.twitter,
+            size: 40,
+          ),
+        ),
+        moreDetails: false,
+      );
+      items.add(
+        item,
+      );
+      return items;
     }
   }
 
@@ -43,15 +90,18 @@ class TwitterService {
     String query = "";
     bool getCashTagTweets = false;
     tweetFeed.clear();
+    List<String> favoriteHandles = await Global.getUserFavList(Global.favoriteTwitterHandlesKey);
     for (int i = 0; i < Global.allTwitterHandles.length; i++) {
       String handle = Global.allTwitterHandles[i];
-      if (!(handle.contains("\$") || handle.contains("#"))) {
-        query = "$query from:@$handle";
-        if ((i + 1) < Global.allTwitterHandles.length) {
-          query = "$query OR ";
+      if (favoriteHandles.contains(handle)) {
+        if (!(handle.contains("\$") || handle.contains("#"))) {
+          query = "$query from:@$handle";
+          if ((i + 1) < Global.allTwitterHandles.length) {
+            query = "$query OR ";
+          }
+        } else {
+          getCashTagTweets = true;
         }
-      } else {
-        getCashTagTweets = true;
       }
     }
     Future twitterRequest = _twitterOauth.getTwitterRequest(

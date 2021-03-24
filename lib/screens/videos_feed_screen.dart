@@ -16,8 +16,13 @@ import '../utilities/globals.dart';
 import '../utilities/secretes.dart';
 
 class VideosFeedScreen extends StatefulWidget {
+  VideosFeedScreen({Key key}) : super(key: key);
   @override
   _VideosFeedScreenState createState() => _VideosFeedScreenState();
+  static final GlobalKey<_VideosFeedScreenState> videoFeedScreenKey = GlobalKey<_VideosFeedScreenState>();
+  void refreshVideos() {
+    videoFeedScreenKey.currentState.callYoutubeAPI();
+  }
 }
 
 class _VideosFeedScreenState extends State<VideosFeedScreen> {
@@ -86,7 +91,7 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
   @override
   void initState() {
     super.initState();
-    callYoutubeAPI();
+    //callYoutubeAPI();
   }
 
   @override

@@ -92,13 +92,15 @@ class Global {
 
   static Future<List<String>> getUserFavList(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(key) ?? new List<String>();
+    String projectId = await Global.getProjectId();
+    return prefs.getStringList("{$key}_{$projectId}") ?? new List<String>();
   }
 
   static void setUserFavList(String key, List<String> value) async {
     final prefs = await SharedPreferences.getInstance();
     if (key != null && value != null) {
-      prefs.setStringList(key, value);
+      String projectId = await Global.getProjectId();
+      prefs.setStringList("{$key}_{$projectId}", value);
     }
   }
 
@@ -114,8 +116,8 @@ class Global {
 
   static Future<void> getTwitterAccounts() async {
     String projectId = await Global.getProjectId();
+    allTwitterHandles.clear();
     FirebaseFirestore.instance.collection('twitter_accounts').where('project_id', isEqualTo: projectId).get().then((value) {
-      allTwitterHandles.clear();
       value.docs.forEach((element) {
         allTwitterHandles.add(element["handle"]);
       });

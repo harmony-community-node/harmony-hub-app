@@ -16,8 +16,13 @@ import '../utilities/globals.dart';
 import 'info_screen.dart';
 
 class MediumFeedScreen extends StatefulWidget {
+  MediumFeedScreen({Key key}) : super(key: key);
   @override
   _MediumFeedScreenState createState() => _MediumFeedScreenState();
+  static final GlobalKey<_MediumFeedScreenState> articleFeedScreenKey = GlobalKey<_MediumFeedScreenState>();
+  void refreshArticles() {
+    articleFeedScreenKey.currentState.getAccounts();
+  }
 }
 
 class _MediumFeedScreenState extends State<MediumFeedScreen> {
@@ -146,11 +151,13 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
       SizedBox sb = SizedBox(height: 1);
       articleWidgets.add(sb);
     }
-    setState(() {
-      articleItems.clear();
-      articleItems = articleWidgets;
-      dataLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        articleItems.clear();
+        articleItems = articleWidgets;
+        dataLoading = false;
+      });
+    }
   }
 
   @override

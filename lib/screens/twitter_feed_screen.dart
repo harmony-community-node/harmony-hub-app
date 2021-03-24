@@ -11,15 +11,20 @@ import '../utilities/constants.dart';
 import '../utilities/globals.dart';
 
 class TwitterFeedScreen extends StatefulWidget {
+  TwitterFeedScreen({Key key}) : super(key: key);
   @override
   _TwitterFeedScreenState createState() => _TwitterFeedScreenState();
+  static final GlobalKey<_TwitterFeedScreenState> twitterFeedScreenKey = GlobalKey<_TwitterFeedScreenState>();
+  void refreshTweets() {
+    twitterFeedScreenKey.currentState.getTweets();
+  }
 }
 
 class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
-  final twitterService = TwitterService();
+  final twitterService = new TwitterService();
   bool dataLoading = false;
-  List<Widget> twitterItems = new List<Widget>();
-  List<TwitterFeed> tweetFeed = new List<TwitterFeed>();
+  List<Widget> twitterItems;
+  List<TwitterFeed> tweetFeed;
   @override
   void initState() {
     super.initState();
@@ -27,14 +32,18 @@ class _TwitterFeedScreenState extends State<TwitterFeedScreen> {
   }
 
   Future<void> getTweets() async {
+    twitterItems = new List<Widget>();
+    tweetFeed = new List<TwitterFeed>();
     setState(() {
       dataLoading = true;
     });
     List<Widget> tweets = await twitterService.getTweets(context);
-    setState(() {
-      twitterItems = tweets;
-      dataLoading = false;
-    });
+    if (tweets != null && mounted) {
+      setState(() {
+        twitterItems = tweets;
+        dataLoading = false;
+      });
+    }
   }
 
   @override
