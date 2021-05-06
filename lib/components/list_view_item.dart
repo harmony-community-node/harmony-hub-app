@@ -7,7 +7,15 @@ import '../utilities/constants.dart';
 import '../utilities/globals.dart';
 
 class ListViewItem extends StatelessWidget {
-  ListViewItem({@required this.title, @required this.text, this.moreDetails, this.openMoreDetails, this.selectable, this.height, this.leading});
+  ListViewItem({
+    @required this.title,
+    @required this.text,
+    this.moreDetails,
+    this.openMoreDetails,
+    this.selectable,
+    this.height,
+    this.leading,
+  });
   final String title;
   final String text;
   final bool moreDetails;

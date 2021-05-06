@@ -11,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../utilities/constants.dart';
-import '../utilities/globals.dart';
 import 'info_screen.dart';
 import 'medium_feed_screen.dart';
 import 'twitter_feed_screen.dart';
@@ -32,11 +31,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   TwitterFeedScreen _twitterFeedScreen;
   MediumFeedScreen _mediumFeedScreen;
   VideosFeedScreen _videosFeedScreen;
-  InformationScreen forumScreen = new InformationScreen(
-    url: Global.forumUrl,
-    title: 'Forum',
-    showAppIcon: true,
-  );
+  InformationScreen _forumScreen;
 
   @override
   void initState() {
@@ -52,7 +47,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   void setupScreens() async {
     List<ForumDetails> forumDetails = await forumService.getForumDetails();
     if (forumDetails.length > 0) {
-      forumScreen = new InformationScreen(
+      _forumScreen = new InformationScreen(
         url: forumDetails[0].url,
         title: forumDetails[0].title,
         showAppIcon: true,
@@ -65,13 +60,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     setState(() {
       screens.clear();
     });
-    List<Widget> srs = new List<Widget>();
+    List<Widget> srs = [];
     srs.add(_calendarScreen);
     srs.add(_twitterFeedScreen);
     srs.add(_mediumFeedScreen);
     srs.add(new VideosFeedScreen());
-    if (forumScreen != null) {
-      srs.add(forumScreen);
+    if (_forumScreen != null) {
+      srs.add(_forumScreen);
     }
     srs.add(new SocialMediaScreen(
       refreshBottomNavigation: refreshScreens,
@@ -81,7 +76,18 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     });
   }
 
-  void refreshScreens() {
+  void refreshScreens() async {
+    List<ForumDetails> forumDetails = await forumService.getForumDetails();
+    if (forumDetails.length > 0) {
+      _forumScreen = new InformationScreen(
+        url: forumDetails[0].url,
+        title: forumDetails[0].title,
+        showAppIcon: true,
+      );
+    }
+    if (_forumScreen != null) {
+      screens[4] = _forumScreen;
+    }
     try {
       _twitterFeedScreen.refreshTweets();
     } catch (Exception) {}

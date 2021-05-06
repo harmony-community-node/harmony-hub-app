@@ -1,19 +1,17 @@
-import 'dart:convert';
-
-import 'package:HarmonyHub/models/article.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:HarmonyHub/components/list_view_item.dart';
+import 'package:HarmonyHub/models/article_source.dart';
+import 'package:HarmonyHub/screens/article_filter_screen.dart';
+import 'package:HarmonyHub/screens/info_screen.dart';
+import 'package:HarmonyHub/services/article_source_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:xml2json/xml2json.dart';
-import 'package:xml_parser/xml_parser.dart';
 
-import '../components/list_view_item.dart';
 import '../components/resuable_card.dart';
 import '../utilities/constants.dart';
 import '../utilities/globals.dart';
-import 'info_screen.dart';
 
 class MediumFeedScreen extends StatefulWidget {
   MediumFeedScreen({Key key}) : super(key: key);
@@ -21,22 +19,74 @@ class MediumFeedScreen extends StatefulWidget {
   _MediumFeedScreenState createState() => _MediumFeedScreenState();
   static final GlobalKey<_MediumFeedScreenState> articleFeedScreenKey = GlobalKey<_MediumFeedScreenState>();
   void refreshArticles() {
-    articleFeedScreenKey.currentState.getAccounts();
+    articleFeedScreenKey.currentState.getArticles();
   }
 }
 
 class _MediumFeedScreenState extends State<MediumFeedScreen> {
   bool dataLoading = false;
-  List<Widget> articleItems = new List<Widget>();
-  List<String> accounts = new List<String>();
+  List<Widget> articleItems = [];
+  List<String> accounts = [];
+  ArticleSourceService articleSourceService = new ArticleSourceService();
 
   @override
   void initState() {
     super.initState();
-    getAccounts();
+    getArticles();
   }
 
-  Future<void> getAccounts() async {
+  Future<void> getArticles() async {
+    setState(() {
+      dataLoading = true;
+    });
+    List<Widget> articleWidgets = [];
+    List<ArticleSource> articles = await articleSourceService.getArticleSources();
+    articles.sort((a, b) => b.publishedDate.compareTo(a.publishedDate));
+    int numberOfArticles = articles.length > 150 ? 150 : articles.length;
+    for (int i = 0; i < numberOfArticles; i++) {
+      ArticleSource art = articles[i];
+      ListViewItem item = ListViewItem(
+        height: 100,
+        title: art.title,
+        text: "\nPublished By : ${art.provider}\n\nPublished Date : ${DateFormat('dd-MMM-yyyy HH:mm').format(art.publishedDate)}",
+        leading: art.thumbnailUrl == ""
+            ? Image.asset(
+                "assets/medium.png",
+                height: 80.0,
+                width: 50.0,
+              )
+            : Image.network(
+                art.thumbnailUrl,
+                height: 80.0,
+                width: 50.0,
+              ),
+        moreDetails: true,
+        openMoreDetails: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InformationScreen(
+                title: art.title,
+                url: art.url,
+              ),
+            ),
+          );
+        },
+      );
+      articleWidgets.add(item);
+      SizedBox sb = SizedBox(height: 1);
+      articleWidgets.add(sb);
+    }
+    if (mounted) {
+      setState(() {
+        articleItems.clear();
+        articleItems = articleWidgets;
+        dataLoading = false;
+      });
+    }
+  }
+
+  /*Future<void> getAccounts() async {
     accounts.clear();
     String projectId = await Global.getProjectId();
     FirebaseFirestore.instance.collection('medium_accounts').where('project_id', isEqualTo: projectId).get().then((value) {
@@ -158,7 +208,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
         dataLoading = false;
       });
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +222,21 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
             'assets/app_icon.png',
           ),
         ),
+        actions: [
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.filter),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArticleFilterScreen(
+                    refreshArticles: getArticles,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
@@ -183,7 +248,7 @@ class _MediumFeedScreenState extends State<MediumFeedScreen> {
             )
           : Container(
               child: RefreshIndicator(
-                onRefresh: getAccounts,
+                onRefresh: getArticles,
                 child: ListView(
                   padding: const EdgeInsets.all(5),
                   children: <Widget>[

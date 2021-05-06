@@ -49,7 +49,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(
                 'OK',
                 style: GoogleFonts.nunito(
@@ -98,7 +98,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
         ),
         actions: [
           new IconButton(
-            icon: Icon(FontAwesomeIcons.infoCircle),
+            icon: Icon(FontAwesomeIcons.bars),
             onPressed: () {
               Navigator.push(
                 context,

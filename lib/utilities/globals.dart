@@ -1,3 +1,4 @@
+import 'package:HarmonyHub/models/article_source.dart';
 import 'package:HarmonyHub/models/calendar_event.dart';
 import 'package:HarmonyHub/models/forum_details.dart';
 import 'package:HarmonyHub/models/project_details.dart';
@@ -40,6 +41,8 @@ class Global {
   static String favoriteValListKey = 'FAVORITEVALIDATORLIST';
   static String favoriteDelListKey = 'FAVORITEDELEGATORLIST';
   static String favoriteTwitterHandlesKey = 'TWITTER_HANDLES_KEY';
+  static String favoriteVideoHandlesKey = 'VIDEO_HANDLES_KEY';
+  static String favoriteArticleHandlesKey = 'ARTICLE_HANDLES_KEY';
   static String calenderEventPushNotifications = "calenderEventPushNotifications";
 
   static String myValONEAddress = '';
@@ -47,12 +50,13 @@ class Global {
 
   static bool isDarkModeEnabled = false;
 
-  static List<String> allTwitterHandles = new List<String>();
-  static List<CalendarEvent> events = new List<CalendarEvent>();
-  static List<SocialMediaLinks> smLinks = new List<SocialMediaLinks>();
-  static List<VideoSource> videoSources = new List<VideoSource>();
-  static List<ForumDetails> forumDetails = new List<ForumDetails>();
-  static List<ProjectDetails> projectDetails = new List<ProjectDetails>();
+  static List<String> allTwitterHandles = [];
+  static List<CalendarEvent> events = [];
+  static List<SocialMediaLinks> smLinks = [];
+  static List<VideoSource> videoSources = [];
+  static List<ArticleSource> articleSources = [];
+  static List<ForumDetails> forumDetails = [];
+  static List<ProjectDetails> projectDetails = [];
 
   static String projectIdKey = 'PROJECT_ID';
 

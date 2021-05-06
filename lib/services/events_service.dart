@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 
 class EventService {
-  final String calenderEventsTableName = "dev_calendar_events"; //"calender_events";
+  final String calenderEventsTableName = "calendar_events"; //"calender_events";
   Future<List<CalendarEvent>> getCalenderEvents(DateTime startDate, DateTime endDate) async {
     await Firebase.initializeApp();
     DateFormat dateFormat = new DateFormat("E, d MMM y H:m:s");

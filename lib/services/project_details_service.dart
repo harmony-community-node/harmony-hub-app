@@ -12,9 +12,15 @@ class ProjectDetailsService {
     String userId = await fas.getUserId();
     String projectId = await Global.getProjectId();
     if (userId != null) {
-      QuerySnapshot projectDetails = await FirebaseFirestore.instance.collection(projectDetailsTable).get();
+      QuerySnapshot projectDetails = await FirebaseFirestore.instance
+          .collection(projectDetailsTable)
+          .where(
+            "active",
+            isEqualTo: true,
+          )
+          .get();
       Global.projectDetails.clear();
-      List<String> docIds = new List<String>();
+      List<String> docIds = [];
       for (int i = 0; i < projectDetails.docs.length; i++) {
         var element = projectDetails.docs[i];
         docIds.add(element.id);

@@ -1,12 +1,22 @@
 class VideoSource {
   VideoSource({
-    this.url,
+    this.docId,
+    this.title,
+    this.description,
+    this.videoDatetime,
     this.projectId,
-    this.channelId,
-    this.source,
+    this.thumbnailURL,
+    this.videoProvider,
+    this.videoSource,
+    this.videoUrl,
   });
-  final String channelId;
+  final String docId;
+  final String title;
+  final String description;
+  final DateTime videoDatetime;
+  final String thumbnailURL;
+  final String videoProvider;
   final String projectId;
-  final String source;
-  final String url;
+  final String videoSource;
+  final String videoUrl;
 }
