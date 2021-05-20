@@ -92,6 +92,7 @@ class _VideoFilterScreenState extends State<VideoFilterScreen> {
                 'project_id',
                 isEqualTo: projectId,
               )
+              .orderBy("order", descending: false)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {

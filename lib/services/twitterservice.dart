@@ -45,7 +45,7 @@ class TwitterService {
       if (Global.allTwitterHandles.length > 0) {
         return await getTweetsData(context);
       } else {
-        List<Widget> items = new List<Widget>();
+        List<Widget> items = [];
         ListViewItem item = ListViewItem(
           height: 80,
           title: "",

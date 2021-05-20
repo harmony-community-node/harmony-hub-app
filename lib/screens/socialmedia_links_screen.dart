@@ -146,7 +146,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
                         ),
                       ),
                       onTap: () async {
-                        if (item.linkType == 'app') {
+                        if (item.linkType == 'app' || item.url.toLowerCase().contains("youtube")) {
                           if (await canLaunch(item.url)) {
                             launch(item.url);
                           } else {

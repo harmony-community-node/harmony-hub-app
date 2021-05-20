@@ -6,15 +6,14 @@ import 'package:HarmonyHub/models/video_sources.dart';
 import 'package:HarmonyHub/screens/info_screen.dart';
 import 'package:HarmonyHub/screens/video_filter_screen.dart';
 import 'package:HarmonyHub/services/video_source_service.dart';
-import 'package:HarmonyHub/youtube_api/youtube_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../components/resuable_card.dart';
 import '../utilities/constants.dart';
 import '../utilities/globals.dart';
-import '../utilities/secretes.dart';
 
 class VideosFeedScreen extends StatefulWidget {
   VideosFeedScreen({Key key}) : super(key: key);
@@ -29,13 +28,12 @@ class VideosFeedScreen extends StatefulWidget {
 class _VideosFeedScreenState extends State<VideosFeedScreen> {
   bool dataLoading = false;
   List<Widget> youtubeItems = [];
-  YoutubeAPI ytApi = new YoutubeAPI(Secretes.youtubeAccessKey);
-  List<YT_API> videoFeed = [];
   VideoSourceService vSourceService = new VideoSourceService();
 
   Future<void> getVideos() async {
     List<Widget> videos = [];
     List<VideoSource> vSource = await vSourceService.getVideoSources();
+    vSource.sort((a, b) => b.videoDatetime.compareTo(a.videoDatetime));
     for (int i = 0; i < vSource.length; i++) {
       VideoSource feed = vSource[i];
       String title = utf8.decode(utf8.encode(feed.title));
@@ -43,9 +41,9 @@ class _VideosFeedScreenState extends State<VideosFeedScreen> {
       //print(feed.url);
       //print(feed.thumbnail);
       VideoListViewItem item = VideoListViewItem(
-        height: description.length < 75 ? 80 : 135,
+        height: 80.0,
         title: title,
-        text: description,
+        text: "\nPublished Date : ${DateFormat('dd-MMM-yyyy HH:mm').format(feed.videoDatetime)}",
         leading: feed.thumbnailURL == null
             ? Icon(
                 FontAwesomeIcons.youtube,

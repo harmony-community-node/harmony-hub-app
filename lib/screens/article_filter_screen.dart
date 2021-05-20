@@ -92,6 +92,7 @@ class _ArticleFilterScreenState extends State<ArticleFilterScreen> {
                 'project_id',
                 isEqualTo: projectId,
               )
+              .orderBy('order', descending: false)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
